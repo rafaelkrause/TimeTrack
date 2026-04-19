@@ -7,6 +7,10 @@ on:
         description: "Versão (ex: 1.0.0)"
         required: true
         default: "1.0.0"
+      tag:
+        description: "Tag para anexar o .exe (ex: v1.0.0). Vazio = não anexa."
+        required: false
+        default: ""
   workflow_call:
     inputs:
       version:

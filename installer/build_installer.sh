@@ -36,6 +36,12 @@ need unzip
 need python3
 need makensis
 
+# curl with retries — mirrors (nssm.cc, python.org, bootstrap.pypa.io) flake with
+# transient 5xx, so never let a single hiccup fail the build.
+fetch() {
+  curl -fsSL --retry 5 --retry-all-errors --retry-delay 10 --connect-timeout 20 "$@"
+}
+
 mkdir -p "$BUILD_DIR" "$CACHE_DIR"
 
 # ------------------------------------------------------------------ clean
@@ -47,7 +53,7 @@ mkdir -p "$BUILD_DIR"
 PY_ZIP="$CACHE_DIR/python-${PY_VER}-embed-amd64.zip"
 if [[ ! -f "$PY_ZIP" ]]; then
   log "Downloading Python ${PY_VER} embeddable..."
-  curl -fsSL -o "$PY_ZIP" \
+  fetch -o "$PY_ZIP" \
     "https://www.python.org/ftp/python/${PY_VER}/python-${PY_VER}-embed-amd64.zip"
 fi
 log "Extracting Python embeddable..."
@@ -58,7 +64,7 @@ unzip -q -o "$PY_ZIP" -d "$BUILD_DIR/python"
 GETPIP="$CACHE_DIR/get-pip.py"
 if [[ ! -f "$GETPIP" ]]; then
   log "Downloading get-pip.py..."
-  curl -fsSL -o "$GETPIP" "https://bootstrap.pypa.io/get-pip.py"
+  fetch -o "$GETPIP" "https://bootstrap.pypa.io/get-pip.py"
 fi
 mkdir -p "$BUILD_DIR/wheels"
 cp "$GETPIP" "$BUILD_DIR/wheels/get-pip.py"
@@ -84,7 +90,7 @@ python3 -m pip download \
 NSSM_ZIP="$CACHE_DIR/nssm-${NSSM_VER}.zip"
 if [[ ! -f "$NSSM_ZIP" ]]; then
   log "Downloading NSSM ${NSSM_VER}..."
-  curl -fsSL -o "$NSSM_ZIP" "https://nssm.cc/release/nssm-${NSSM_VER}.zip"
+  fetch -o "$NSSM_ZIP" "https://nssm.cc/release/nssm-${NSSM_VER}.zip"
 fi
 log "Extracting NSSM..."
 rm -rf "$CACHE_DIR/nssm-tmp"
