@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Tracker</title>
+    <style>
+        body { font-family: system-ui, sans-serif; display: flex; align-items: center;
+               justify-content: center; height: 100vh; margin: 0; color: #555; }
+        .msg { text-align: center; }
+        .msg a { color: #4a90d9; }
+    </style>
+</head>
+<body>
+    <div class="msg" id="msg">Abrindo Job Tracker...</div>
+    <script>
+        const ch = new BroadcastChannel("job-tracker-sync");
+        let acked = false;
+
+        ch.addEventListener("message", (e) => {
+            if (e.data === "focus-ack") {
+                acked = true;
+                ch.close();
+                // Try closing this tab (works if opened programmatically)
+                window.close();
+                // Fallback: tell user to close manually
+                document.getElementById("msg").innerHTML =
+                    'Job Tracker j\u00e1 est\u00e1 aberto em outra aba.<br><small>Pode fechar esta aba.</small>';
+            }
+        });
+
+        // Ask existing tabs to focus themselves
+        ch.postMessage("focus-request");
+
+        // If no response in 400ms, no tab exists — redirect to dashboard
+        setTimeout(() => {
+            if (!acked) {
+                ch.close();
+                window.location.replace("/");
+            }
+        }, 400);
+    </script>
+</body>
+</html>
