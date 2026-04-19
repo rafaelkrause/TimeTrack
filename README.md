@@ -1,5 +1,13 @@
 # Job Tracker
 
+[![CI](https://github.com/rafaelkrause/job_tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/rafaelkrause/job_tracker/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/rafaelkrause/job_tracker/actions/workflows/codeql.yml/badge.svg)](https://github.com/rafaelkrause/job_tracker/actions/workflows/codeql.yml)
+[![Docs](https://github.com/rafaelkrause/job_tracker/actions/workflows/docs.yml/badge.svg)](https://rafaelkrause.github.io/job_tracker/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![AI-assisted](https://img.shields.io/badge/AI--assisted-Claude%20Code-7159c1)](https://claude.ai/claude-code)
+
 A lightweight, self-hosted hour-tracking tool that runs as a background process and serves a local web UI at `http://localhost:5000`. Built for single-user, low-footprint use on Linux and Windows. The UI is in Brazilian Portuguese (pt-BR); exports are formatted for manual paste into iClips.
 
 📘 **Documentation / Documentação:** [rafaelkrause.github.io/job_tracker](https://rafaelkrause.github.io/job_tracker/) (pt-BR + English)

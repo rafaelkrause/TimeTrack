@@ -7,6 +7,16 @@ on:
         description: "Versão (ex: 1.0.0)"
         required: true
         default: "1.0.0"
+  workflow_call:
+    inputs:
+      version:
+        description: "Version without leading v (e.g. 1.0.0)"
+        required: true
+        type: string
+      tag:
+        description: "Release tag to attach the installer to (e.g. v1.0.0)"
+        required: false
+        type: string
   push:
     tags:
       - "v*"
@@ -31,6 +41,17 @@ jobs:
             echo "value=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Resolver tag
+        id: tag
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            echo "value=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          elif [[ -n "${{ inputs.tag }}" ]]; then
+            echo "value=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Instalar NSIS
         run: |
           sudo apt-get update
@@ -52,8 +73,9 @@ jobs:
           path: installer/JobTracker-Setup-${{ steps.version.outputs.value }}.exe
           if-no-files-found: error
 
-      - name: Anexar ao release (apenas em push de tag)
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Anexar ao release
+        if: steps.tag.outputs.value != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.tag.outputs.value }}
           files: installer/JobTracker-Setup-${{ steps.version.outputs.value }}.exe

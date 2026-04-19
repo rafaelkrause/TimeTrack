@@ -55,6 +55,12 @@ Changelog = "https://github.com/rafaelkrause/job_tracker/blob/main/CHANGELOG.md"
 [project.scripts]
 job-tracker = "app.__main__:main"
 
+[tool.hatch.build]
+# Compiled translation catalogs (`.mo`) are gitignored but must ship inside
+# the distributions. `artifacts` opts them back in without disabling
+# VCS-based exclusion for everything else.
+artifacts = ["app/i18n/**/*.mo"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["app"]
 
