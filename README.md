@@ -20,6 +20,12 @@ A lightweight, self-hosted hour-tracking tool that runs as a background process 
 - Flask 3.0+
 - *(optional)* `pystray` and `Pillow` for system tray support
 
+## Language / Idioma
+
+The application UI and documentation are **bilingual** (English + Brazilian Portuguese, default `pt-BR`). The codebase itself (identifiers, comments, docstrings) is in English.
+
+A aplicação e a documentação são **bilíngues** (inglês + português do Brasil, default `pt-BR`). O código-fonte (identificadores, comentários, docstrings) é em inglês.
+
 ## Installation
 
 ### Linux / macOS
@@ -30,14 +36,20 @@ cd job_tracker
 ./install.sh
 ```
 
-Or manually:
+Or with the modern packaging workflow:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
-# Optional tray support:
-pip install pystray Pillow
+pip install -e ".[tray]"            # runtime + tray
+# For development:
+pip install -e ".[dev,tray]"
+```
+
+Once installed, the `job-tracker` command is on your PATH:
+
+```bash
+job-tracker --no-browser
 ```
 
 ### Windows

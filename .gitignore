@@ -37,3 +37,21 @@ config.json
 
 # OS
 Thumbs.db
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+coverage.xml
+.coverage
+.coverage.*
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+site/
+
+# Recovery files from corrupted JSON
+*.corrupted

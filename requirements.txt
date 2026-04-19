@@ -1,4 +1,8 @@
 flask>=3.0
+flask-babel>=4.0
 
-# Optional: system tray support
-# pip install pystray Pillow
+# Optional extras (install with `pip install -e ".[tray]"`):
+#   pystray>=0.19
+#   Pillow>=10.0
+#
+# For development, prefer: pip install -e ".[dev,tray]"
