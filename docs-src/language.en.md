@@ -5,7 +5,7 @@ Job Tracker is **bilingual by design**: UI and docs come in English and Brazilia
 ## Why bilingual?
 
 - The project was born for a Brazilian marketing agency — pt-BR is the everyday language.
-- Export is formatted for iClips (a Brazilian platform).
+- Export is designed for pasting into spreadsheets and the time-entry systems used by Brazilian agencies.
 - But the project is open source, and we want international contributors to read and contribute without language friction.
 
 ## How the UI resolves the language

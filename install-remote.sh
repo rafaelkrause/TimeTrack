@@ -19,7 +19,6 @@
 #
 # Environment variables:
 #   JT_VERSION=0.1.0   Pin a specific release (default: latest).
-#   JT_NO_TRAY=1       Skip pystray + Pillow install.
 #   JT_PREFIX=PATH     Install prefix (default: ~/.local/share/job-tracker).
 # =============================================================================
 set -euo pipefail
@@ -236,18 +235,9 @@ PY
     PIP="$VENV_DIR/bin/pip"
     "$PIP" install --quiet --upgrade pip
 
-    # ---- Install wheel (+tray unless disabled)
-    # pip doesn't accept `url[extra]` syntax — it URL-encodes the brackets.
-    # Use PEP 508 direct-URL form `name[extra] @ url` instead.
+    # ---- Install wheel (pystray + Pillow are regular runtime deps now)
     info "Installing wheel…"
-    if [ "${JT_NO_TRAY:-0}" = "1" ]; then
-        "$PIP" install --quiet "$WHL_URL"
-    else
-        if ! "$PIP" install --quiet "job-tracker[tray] @ $WHL_URL"; then
-            warn "tray extras failed (pystray/Pillow) — falling back to core install"
-            "$PIP" install --quiet "$WHL_URL"
-        fi
-    fi
+    "$PIP" install --quiet "$WHL_URL"
     ok "Job Tracker $REL_TAG installed"
 
     # ---- Launcher on PATH

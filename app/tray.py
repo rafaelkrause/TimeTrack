@@ -1,4 +1,4 @@
-"""System tray integration (optional — requires pystray and Pillow)."""
+"""System tray integration — requires pystray and Pillow (runtime deps)."""
 
 import json
 import os

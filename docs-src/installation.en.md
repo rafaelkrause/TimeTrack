@@ -1,23 +1,30 @@
 # Installation
 
-Complete installation guide for Job Tracker on Linux, macOS and Windows.
+Straight path: pick your platform, install, done. The last block is for contributors who want the source.
 
-## Requirements
+## Windows — `.exe` installer (recommended)
 
-| System | Requirements |
-|---|---|
-| Linux / macOS | Python 3.10+, `curl`, `bash` |
-| Windows (installer) | None — bundled Python |
-| Windows (manual) | Python 3.10+ |
-| Optional | `pystray` + `Pillow` (tray icon, included by default in the remote script) |
+**[⬇ Download `JobTracker-Setup.exe`](https://github.com/rafaelkrause/job_tracker/releases/latest)**
 
-## Linux / macOS — quick install (remote)
+1. Run the `.exe`. If SmartScreen blocks it, click **More info → Run anyway** (the installer is not code-signed yet).
+2. The wizard asks about: desktop shortcut, Start Menu entry, and the optional **Windows service** component (NSSM).
+3. When it finishes, the app opens at `http://localhost:5000`. For later runs, launch from the Start Menu or the desktop shortcut.
 
-Recommended for most users. Downloads the published `.whl` from GitHub Releases, installs it inside an isolated virtualenv, and drops a `job-tracker` launcher on `PATH`.
+Details:
+
+- **Per-user install** (no UAC). Target: `%LOCALAPPDATA%\Programs\JobTracker`.
+- **Embedded Python** — nothing is installed system-wide.
+- **Data**: `%APPDATA%\JobTracker` (preserved across updates).
+
+## Linux / macOS — remote installer (recommended)
+
+**[⬇ Download `install-remote.sh`](https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh)** or run directly:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash
 ```
+
+The script does everything: downloads the latest release wheel, creates an isolated virtualenv, installs the dependencies, and drops a `job-tracker` launcher on your `PATH`.
 
 Then:
 
@@ -25,6 +32,23 @@ Then:
 job-tracker              # opens the browser at http://localhost:5000
 job-tracker --no-browser # start the server only
 ```
+
+### Prerequisite: Python 3.10+
+
+The script fails early if `python3 --version` is below 3.10. If you need to install it:
+
+```bash
+# Ubuntu/Debian
+sudo apt install python3 python3-venv
+
+# Fedora
+sudo dnf install python3 python3-virtualenv
+
+# macOS (Homebrew)
+brew install python@3.11
+```
+
+Or grab the official installer at [python.org/downloads](https://www.python.org/downloads/).
 
 ### What gets created
 
@@ -36,19 +60,6 @@ job-tracker --no-browser # start the server only
 | `~/.local/share/applications/job-tracker.desktop` | App-menu entry (Linux) |
 
 If `~/.local/bin` is not on your `PATH`, the script warns you and prints the line to add to `~/.bashrc` or `~/.zshrc`.
-
-### Options (environment variables)
-
-```bash
-# Pin a specific version (default: latest release)
-JT_VERSION=0.1.0 curl -fsSL .../install-remote.sh | bash
-
-# Skip tray support (pystray + Pillow)
-JT_NO_TRAY=1 curl -fsSL .../install-remote.sh | bash
-
-# Custom install prefix
-JT_PREFIX=/opt/job-tracker curl -fsSL .../install-remote.sh | bash
-```
 
 ### Autostart (optional)
 
@@ -63,6 +74,16 @@ curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/insta
 
 To enable autostart on an existing installation (without reinstalling), just re-run the command above — the script detects the existing install and only adds the service.
 
+### Options (environment variables)
+
+```bash
+# Pin a specific version (default: latest release)
+JT_VERSION=0.1.0 curl -fsSL .../install-remote.sh | bash
+
+# Custom install prefix
+JT_PREFIX=/opt/job-tracker curl -fsSL .../install-remote.sh | bash
+```
+
 ### Uninstall
 
 ```bash
@@ -73,26 +94,22 @@ curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/insta
 curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash -s -- --uninstall --purge-data
 ```
 
-The uninstaller stops and removes the service (if present), then deletes the launcher, menu entry and virtualenv. If you download the script instead of using `curl | bash`, running it interactively (`bash install-remote.sh --uninstall`) prompts before removing your data.
+The uninstaller stops and removes the service (if present), then deletes the launcher, menu entry and virtualenv.
 
 ### Note on macOS (v0.1.0)
 
-Windows ships a double-click `.exe` installer with a common-user experience; delivering the same level on macOS would require:
+Windows ships a double-click `.exe` installer with a common-user experience; delivering the same level on macOS would require a packaged `.app`, an Apple Developer account (US$99/year), and notarization. Without that, Gatekeeper blocks the app as "unidentified developer".
 
-- Packaging as a `.app` via `py2app` or PyInstaller.
-- An **Apple Developer account (US$99/year)** to code-sign the bundle.
-- Going through Apple **notarization** — without it, Gatekeeper blocks the app as "unidentified developer".
+v0.1.0 therefore uses the `curl | bash` path — the same pattern used by Homebrew, oh-my-zsh and Rust/rustup.
 
-Without that investment, any homemade `.app` triggers scary warnings. v0.1.0 therefore uses the `curl | bash` path documented above, which works with what macOS already ships (Python from Homebrew or python.org, `launchd` for autostart). It is the same pattern used by Homebrew, oh-my-zsh and Rust/rustup.
+## From source (contributors / experts)
 
-## Linux / macOS — from source (contributors)
-
-To develop or modify the project:
+For development, modifications, or running before a release has been published:
 
 ```bash
 git clone https://github.com/rafaelkrause/job_tracker.git
 cd job_tracker
-./install.sh            # creates .venv and installs dependencies
+./install.sh            # creates .venv and installs dependencies (flask, flask-babel, pystray, Pillow)
 ./job-tracker.sh        # run
 ```
 
@@ -101,26 +118,11 @@ Manual alternative:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev,tray]"   # editable install + dev tooling
+pip install -e ".[dev]"   # editable install + dev tooling
 python3 run.py
 ```
 
-## Windows — NSIS installer
-
-1. Download `JobTracker-Setup-X.Y.Z.exe` from the [releases page](https://github.com/rafaelkrause/job_tracker/releases).
-2. Run the `.exe`. If SmartScreen blocks it, click **More info → Run anyway** (installer is not code-signed).
-3. The wizard lets you choose:
-    - Desktop shortcut
-    - Start Menu entry
-    - Optional Windows service component (NSSM)
-
-### Details
-
-- **Per-user install**, no UAC. Default path: `%LOCALAPPDATA%\Programs\JobTracker`
-- **Embedded Python**: no system Python is installed
-- **Data**: lives in `%APPDATA%\JobTracker` (preserved across updates)
-
-## Windows — manual
+### Windows — manual (no installer)
 
 1. Install [Python 3.10+](https://www.python.org/downloads/windows/). Check **Add Python to PATH**.
 2. Download the code (release ZIP or `git clone`).
@@ -133,7 +135,7 @@ pip install -r requirements.txt
 python run.py
 ```
 
-## Build the Windows installer from source
+### Build the Windows installer from source
 
 Only needed if you want to customize the Windows installer. Runs on a Linux host:
 
@@ -147,25 +149,14 @@ The workflow `.github/workflows/build-installer.yml` does this automatically whe
 
 ## Update
 
-### Linux / macOS — via remote script
+- **Windows**: run the new `JobTracker-Setup-X.Y.Z.exe`. Data and configuration under `%APPDATA%\JobTracker` are preserved.
+- **Linux / macOS (remote installer)**: re-run `install-remote.sh` — it detects the existing virtualenv, downloads the new version, reinstalls the wheel, and preserves your data at `~/.local/share/job-tracker/user/`.
+- **From source**: `git pull && source .venv/bin/activate && pip install -r requirements.txt --upgrade`.
 
-Re-run `install-remote.sh`: it detects the existing virtualenv, downloads the new version, reinstalls the wheel, and preserves your data at `~/.local/share/job-tracker/user/`.
+## Requirements (summary)
 
-### Linux / macOS — from source
-
-```bash
-cd job_tracker
-git pull
-source .venv/bin/activate
-pip install -r requirements.txt --upgrade
-```
-
-### Windows
-
-Run the new `JobTracker-Setup-X.Y.Z.exe`. Data and configuration under `%APPDATA%\JobTracker` are preserved.
-
-## Uninstall
-
-- **Linux/macOS (remote install):** see [Uninstall](#uninstall) above.
-- **Linux/macOS (from source):** `rm -rf job_tracker/`. If applicable: `systemctl --user disable --now job-tracker.service`.
-- **Windows:** Control Panel → Programs → Job Tracker → Uninstall.
+| System | Requirements |
+|---|---|
+| Windows (installer) | None — bundled Python |
+| Windows (manual) | Python 3.10+ |
+| Linux / macOS | Python 3.10+, `curl`, `bash` |

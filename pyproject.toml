@@ -30,10 +30,11 @@ classifiers = [
 dependencies = [
     "flask>=3.0",
     "flask-babel>=4.0",
+    "pystray>=0.19",
+    "Pillow>=10.0",
 ]
 
 [project.optional-dependencies]
-tray = ["pystray>=0.19", "Pillow>=10.0"]
 dev = [
     "ruff>=0.6",
     "mypy>=1.11",

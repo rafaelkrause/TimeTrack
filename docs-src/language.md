@@ -5,7 +5,7 @@ O Job Tracker é um projeto **bilíngue por design**: a UI e a documentação t�
 ## Por que bilíngue?
 
 - O projeto nasceu para uma agência de marketing brasileira — pt-BR é a língua do dia-a-dia.
-- A exportação é formatada para o iClips (plataforma brasileira).
+- A exportação é pensada para colar em planilhas e sistemas externos de apontamento comuns no Brasil.
 - Mas o projeto é open source e queremos que contribuidores internacionais possam ler e contribuir sem barreira.
 
 ## Como a UI resolve o idioma

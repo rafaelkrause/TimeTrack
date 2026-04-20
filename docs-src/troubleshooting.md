@@ -74,14 +74,12 @@ python3 run.py --no-browser
 
 ### Ícone da bandeja não aparece
 
-1. Confirme que `pystray` e `Pillow` estão instalados no venv:
+`pystray` e `Pillow` são dependências obrigatórias — se o ícone não aparece, o mais comum é faltar a integração do desktop:
 
-    ```bash
-    pip install pystray Pillow
-    ```
-
-2. Em **GNOME puro** (Ubuntu 22.04+), instale a extensão **AppIndicator and KStatusNotifierItem Support**.
-3. Em Windows, verifique se o ícone não está em "ícones ocultos" na bandeja.
+1. Em **GNOME puro** (Ubuntu 22.04+), instale a extensão **AppIndicator and KStatusNotifierItem Support**.
+2. Em Windows, verifique se o ícone não está em "ícones ocultos" na bandeja.
+3. Em servidores sem gerenciador de janelas (headless), é esperado: o app detecta e roda só o servidor web.
+4. Se instalou a partir do código-fonte e pulou o `pip install -r requirements.txt`, reinstale: `pip install -r requirements.txt`.
 
 ## Dados
 
@@ -142,7 +140,7 @@ Excel pt-BR espera `;` como separador. Prefira **TSV** e cole diretamente na cé
 /api/export?format=tsv
 ```
 
-### iClips não aceita a colagem
+### A planilha / sistema externo não aceita a colagem
 
 Verifique se selecionou o intervalo de células correto antes de colar. Se preciso, abra o TSV em uma planilha e copie de lá.
 

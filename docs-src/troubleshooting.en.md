@@ -74,14 +74,12 @@ python3 run.py --no-browser
 
 ### Tray icon does not appear
 
-1. Make sure `pystray` and `Pillow` are installed in the venv:
+`pystray` and `Pillow` are required dependencies — if the icon is missing, the typical cause is the desktop integration:
 
-    ```bash
-    pip install pystray Pillow
-    ```
-
-2. On **pure GNOME** (Ubuntu 22.04+), install the **AppIndicator and KStatusNotifierItem Support** extension.
-3. On Windows, check the "hidden icons" area of the tray.
+1. On **pure GNOME** (Ubuntu 22.04+), install the **AppIndicator and KStatusNotifierItem Support** extension.
+2. On Windows, check the "hidden icons" area of the tray.
+3. On headless servers (no window manager), this is expected: the app detects it and runs only the web server.
+4. If you installed from source and skipped `pip install -r requirements.txt`, reinstall: `pip install -r requirements.txt`.
 
 ## Data
 
@@ -142,7 +140,7 @@ Brazilian Excel expects `;` as separator. Prefer **TSV** and paste straight into
 /api/export?format=tsv
 ```
 
-### iClips rejects the paste
+### The spreadsheet / external system rejects the paste
 
 Make sure the correct cell range is selected before pasting. If needed, open the TSV in a spreadsheet first and copy from there.
 

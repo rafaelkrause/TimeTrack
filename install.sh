@@ -81,26 +81,11 @@ if $USE_VENV; then
     "$PIP" install --upgrade pip -q 2>/dev/null || true
     "$PIP" install -r "$SCRIPT_DIR/requirements.txt" -q
 else
-    pip3 install --user flask -q
+    pip3 install --user -r "$SCRIPT_DIR/requirements.txt" -q
 fi
-ok "Flask instalado"
+ok "Dependências instaladas (flask, flask-babel, pystray, Pillow)"
 
-# ── 4. Bandeja do sistema (opcional) ──────────────────────────────────
-
-echo ""
-echo -n "Instalar suporte a bandeja do sistema (pystray)? [s/N] "
-read -r REPLY
-if [[ "$REPLY" =~ ^[Ss]$ ]]; then
-    info "Instalando pystray + Pillow..."
-    if $USE_VENV; then
-        "$PIP" install pystray Pillow -q
-    else
-        pip3 install --user pystray Pillow -q
-    fi
-    ok "Suporte a bandeja instalado"
-fi
-
-# ── 5. Criar script de inicialização ─────────────────────────────────
+# ── 4. Criar script de inicialização ─────────────────────────────────
 
 info "Criando launcher..."
 
@@ -122,7 +107,7 @@ fi
 chmod +x "$LAUNCHER"
 ok "Launcher criado: $LAUNCHER"
 
-# ── 6. Atalho no menu de aplicações ──────────────────────────────────
+# ── 5. Atalho no menu de aplicações ──────────────────────────────────
 
 mkdir -p "$DESKTOP_DIR"
 
@@ -143,7 +128,7 @@ DESKTOP_EOF
 update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
 ok "Atalho criado no menu de aplicações"
 
-# ── 7. Conclusão ─────────────────────────────────────────────────────
+# ── 6. Conclusão ─────────────────────────────────────────────────────
 
 echo ""
 info "═══════════════════════════════════════"
