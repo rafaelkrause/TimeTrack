@@ -127,7 +127,7 @@ def inject_theme() -> dict:
     """Make the user's theme preference available to every template.
 
     Consumed by ``base.html`` to set ``data-bs-theme`` before paint and
-    by ``app.js`` as the fallback when no ``jt-theme`` localStorage entry
+    by ``app.js`` as the fallback when no ``tt-theme`` localStorage entry
     exists yet.
     """
     return {"theme": get_config().get("theme", "auto")}
@@ -346,7 +346,7 @@ def set_lang():
     if lang not in SUPPORTED_LOCALES:
         return jsonify({"error": _("Unsupported language")}), 400
     resp = make_response("", 204)
-    resp.set_cookie("jt-lang", lang, max_age=60 * 60 * 24 * 365, samesite="Lax")
+    resp.set_cookie("tt-lang", lang, max_age=60 * 60 * 24 * 365, samesite="Lax")
     return resp
 
 

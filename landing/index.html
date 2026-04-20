@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Job Tracker — Rastreamento de horas local, sem nuvem</title>
+    <title>TimeTrack — Rastreamento de horas local, sem nuvem</title>
     <meta name="description" content="Ferramenta leve de rastreamento de horas com UI web local. Sem banco de dados, sem nuvem, sem login. Windows, Linux e macOS.">
 
     <link rel="alternate" hreflang="pt-BR" href="./">
     <link rel="alternate" hreflang="en" href="./en/">
     <link rel="alternate" hreflang="x-default" href="./">
 
-    <meta property="og:title" content="Job Tracker">
+    <meta property="og:title" content="TimeTrack">
     <meta property="og:description" content="Rastreamento de horas local e simples. Windows, Linux, macOS.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://rafaelkrause.github.io/job_tracker/">
+    <meta property="og:url" content="https://rafaelkrause.github.io/TimeTrack/">
     <meta property="og:image" content="./assets/img/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
 
@@ -21,7 +21,7 @@
 
     <script>
       (function () {
-        var pref = localStorage.getItem("jt-theme") || "auto";
+        var pref = localStorage.getItem("tt-theme") || "auto";
         var effective = pref === "auto"
           ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
           : pref;
@@ -39,7 +39,7 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="./">
                 <i class="bi bi-clock-history text-primary"></i>
-                <span>Job Tracker</span>
+                <span>TimeTrack</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-label="Menu">
                 <span class="navbar-toggler-icon"></span>
@@ -50,7 +50,7 @@
                     <li class="nav-item"><a class="nav-link" href="#install">Instalar</a></li>
                     <li class="nav-item"><a class="nav-link" href="./docs/">Documentação</a></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/rafaelkrause/job_tracker" target="_blank" rel="noopener">
+                        <a class="nav-link" href="https://github.com/rafaelkrause/TimeTrack" target="_blank" rel="noopener">
                             <i class="bi bi-github"></i> GitHub
                         </a>
                     </li>
@@ -92,7 +92,7 @@
                         Ferramenta leve de rastreamento de horas para quem vive alternando tarefas. Roda em <code>localhost:5000</code>, guarda tudo em arquivos JSON por mês — sem banco de dados, sem login, sem cadastro.
                     </p>
                     <div class="d-flex flex-wrap gap-2">
-                        <a href="https://github.com/rafaelkrause/job_tracker/releases/latest" class="btn btn-primary btn-lg">
+                        <a href="https://github.com/rafaelkrause/TimeTrack/releases/latest" class="btn btn-primary btn-lg">
                             <i class="bi bi-windows me-1"></i>
                             Baixar para Windows
                         </a>
@@ -114,7 +114,7 @@
                             <span class="window-url">localhost:5000</span>
                         </div>
                         <img src="./docs/assets/screenshots/dashboard.png"
-                             alt="Dashboard do Job Tracker mostrando atividade em curso, timeline e progresso do turno"
+                             alt="Dashboard do TimeTrack mostrando atividade em curso, timeline e progresso do turno"
                              width="1280" height="800"
                              class="window-body"
                              loading="eager"
@@ -209,8 +209,8 @@
                     <div class="install-card">
                         <ol class="install-steps">
                             <li>
-                                <strong>Baixe o instalador</strong> <code>JobTracker-Setup.exe</code>
-                                <a class="btn btn-primary btn-sm ms-2" href="https://github.com/rafaelkrause/job_tracker/releases/latest" target="_blank" rel="noopener">
+                                <strong>Baixe o instalador</strong> <code>TimeTrack-Setup.exe</code>
+                                <a class="btn btn-primary btn-sm ms-2" href="https://github.com/rafaelkrause/TimeTrack/releases/latest" target="_blank" rel="noopener">
                                     <i class="bi bi-download me-1"></i>Releases
                                 </a>
                             </li>
@@ -218,7 +218,7 @@
                             <li><strong>Pronto.</strong> A UI abre em <code>http://localhost:5000</code>.</li>
                         </ol>
                         <p class="small text-body-secondary mt-3 mb-0">
-                            Instalação por usuário (sem UAC). Python embutido. Dados em <code>%APPDATA%\JobTracker</code>, preservados entre atualizações.
+                            Instalação por usuário (sem UAC). Python embutido. Dados em <code>%APPDATA%\TimeTrack</code>, preservados entre atualizações.
                         </p>
                     </div>
                 </div>
@@ -226,10 +226,10 @@
                     <div class="install-card">
                         <p class="mb-3">Um comando faz tudo: baixa o wheel, cria um virtualenv isolado e registra o launcher no <code>PATH</code>.</p>
                         <div class="code-block">
-                            <button class="btn-copy" data-copy="curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash" aria-label="Copiar comando">
+                            <button class="btn-copy" data-copy="curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash" aria-label="Copiar comando">
                                 <i class="bi bi-clipboard"></i>
                             </button>
-                            <pre><code>curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash</code></pre>
+                            <pre><code>curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash</code></pre>
                         </div>
                         <p class="small text-body-secondary mt-3 mb-0">
                             Requer Python 3.10+, <code>curl</code> e <code>bash</code>. Adicione <code>-s -- --service</code> para autostart (systemd no Linux, LaunchAgent no macOS).
@@ -240,16 +240,16 @@
                     <div class="install-card">
                         <p class="mb-3">Para desenvolver ou rodar antes de uma release publicada:</p>
                         <div class="code-block">
-                            <button class="btn-copy" data-copy="git clone https://github.com/rafaelkrause/job_tracker.git
-cd job_tracker
+                            <button class="btn-copy" data-copy="git clone https://github.com/rafaelkrause/TimeTrack.git
+cd TimeTrack
 ./install.sh
-./job-tracker.sh" aria-label="Copiar comandos">
+./timetrack.sh" aria-label="Copiar comandos">
                                 <i class="bi bi-clipboard"></i>
                             </button>
-<pre><code>git clone https://github.com/rafaelkrause/job_tracker.git
-cd job_tracker
+<pre><code>git clone https://github.com/rafaelkrause/TimeTrack.git
+cd TimeTrack
 ./install.sh
-./job-tracker.sh</code></pre>
+./timetrack.sh</code></pre>
                         </div>
                     </div>
                 </div>
@@ -268,7 +268,7 @@ cd job_tracker
                 <div class="col-md-6">
                     <div class="d-flex align-items-center gap-2 fw-semibold mb-2">
                         <i class="bi bi-clock-history text-primary"></i>
-                        Job Tracker
+                        TimeTrack
                     </div>
                     <p class="small text-body-secondary mb-0">
                         © <span id="year"></span> Rafael Krause · Licença MIT · Feito com <span aria-hidden="true">♥</span><span class="visually-hidden">carinho</span>.
@@ -276,9 +276,9 @@ cd job_tracker
                 </div>
                 <div class="col-md-6 text-md-end">
                     <a class="link-body-emphasis text-decoration-none me-3" href="./docs/">Documentação</a>
-                    <a class="link-body-emphasis text-decoration-none me-3" href="https://github.com/rafaelkrause/job_tracker" target="_blank" rel="noopener">GitHub</a>
+                    <a class="link-body-emphasis text-decoration-none me-3" href="https://github.com/rafaelkrause/TimeTrack" target="_blank" rel="noopener">GitHub</a>
                     <a class="link-body-emphasis text-decoration-none me-3" href="./docs/credits/">Créditos</a>
-                    <a class="link-body-emphasis text-decoration-none" href="https://github.com/rafaelkrause/job_tracker/blob/main/LICENSE" target="_blank" rel="noopener">Licença</a>
+                    <a class="link-body-emphasis text-decoration-none" href="https://github.com/rafaelkrause/TimeTrack/blob/main/LICENSE" target="_blank" rel="noopener">Licença</a>
                 </div>
             </div>
         </div>

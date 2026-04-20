@@ -1,6 +1,6 @@
 # Créditos e terceiros
 
-Esta página lista todas as bibliotecas, fontes, ícones e conteúdos de terceiros usados pelo Job Tracker, para manter a atribuição transparente e facilitar auditorias de licença.
+Esta página lista todas as bibliotecas, fontes, ícones e conteúdos de terceiros usados pelo TimeTrack, para manter a atribuição transparente e facilitar auditorias de licença.
 
 ## Dependências de runtime (Python)
 
@@ -89,4 +89,4 @@ O desenvolvimento foi auxiliado pelo [Claude Code](https://claude.ai/claude-code
 
 ## Licença
 
-O código do Job Tracker é distribuído sob a [licença MIT](https://github.com/rafaelkrause/job_tracker/blob/main/LICENSE). Os componentes de terceiros listados acima permanecem sob suas respectivas licenças originais.
+O código do TimeTrack é distribuído sob a [licença MIT](https://github.com/rafaelkrause/TimeTrack/blob/main/LICENSE). Os componentes de terceiros listados acima permanecem sob suas respectivas licenças originais.

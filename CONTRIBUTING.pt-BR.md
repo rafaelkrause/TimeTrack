@@ -1,6 +1,6 @@
 [🇬🇧 English](CONTRIBUTING.md) / 🇧🇷 Português
 
-# Contribuindo com o `job_tracker`
+# Contribuindo com o `TimeTrack`
 
 Obrigado por considerar uma contribuição! Este documento descreve como rodar o
 projeto localmente, as convenções que seguimos e o que esperar do processo de
@@ -9,8 +9,8 @@ revisão.
 ## Primeiros passos
 
 ```bash
-git clone https://github.com/rafaelkrause/job_tracker.git
-cd job_tracker
+git clone https://github.com/rafaelkrause/TimeTrack.git
+cd TimeTrack
 
 python3 -m venv .venv
 source .venv/bin/activate
@@ -24,7 +24,7 @@ pre-commit install
 ```bash
 python3 run.py --no-browser
 # ou, após a instalação editável:
-job-tracker --no-browser
+timetrack --no-browser
 ```
 
 O servidor escuta em `http://127.0.0.1:5000`.

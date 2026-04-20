@@ -149,7 +149,7 @@ Exporta atividades **finalizadas** no intervalo, no formato pedido (`csv` ou `ts
 Resposta `200` com:
 
 - `Content-Type: text/csv` ou `text/tab-separated-values`
-- `Content-Disposition: attachment; filename="jobtracker_YYYY-MM-DD_YYYY-MM-DD.csv"`
+- `Content-Disposition: attachment; filename="timetrack_YYYY-MM-DD_YYYY-MM-DD.csv"`
 
 Campos: data, descrição, início, fim, duração (em minutos).
 
@@ -201,7 +201,7 @@ ou
 { "lang": "en" }
 ```
 
-Define o cookie `jt-lang`. A próxima renderização usa o idioma escolhido.
+Define o cookie `tt-lang`. A próxima renderização usa o idioma escolhido.
 
 ### `GET /api/revision`
 

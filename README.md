@@ -1,8 +1,8 @@
-# Job Tracker
+# TimeTrack
 
-[![CI](https://github.com/rafaelkrause/job_tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/rafaelkrause/job_tracker/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/rafaelkrause/job_tracker/actions/workflows/codeql.yml/badge.svg)](https://github.com/rafaelkrause/job_tracker/actions/workflows/codeql.yml)
-[![Docs](https://github.com/rafaelkrause/job_tracker/actions/workflows/docs.yml/badge.svg)](https://rafaelkrause.github.io/job_tracker/)
+[![CI](https://github.com/rafaelkrause/TimeTrack/actions/workflows/ci.yml/badge.svg)](https://github.com/rafaelkrause/TimeTrack/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/rafaelkrause/TimeTrack/actions/workflows/codeql.yml/badge.svg)](https://github.com/rafaelkrause/TimeTrack/actions/workflows/codeql.yml)
+[![Docs](https://github.com/rafaelkrause/TimeTrack/actions/workflows/docs.yml/badge.svg)](https://rafaelkrause.github.io/TimeTrack/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -10,29 +10,29 @@
 
 A lightweight, self-hosted hour-tracking tool that runs as a background process and serves a local web UI at `http://localhost:5000`. Built for single-user, low-footprint use on Linux, macOS and Windows.
 
-🌐 **Website:** [rafaelkrause.github.io/job_tracker](https://rafaelkrause.github.io/job_tracker/) &nbsp;·&nbsp; 📘 **Docs:** [rafaelkrause.github.io/job_tracker/docs](https://rafaelkrause.github.io/job_tracker/docs/) (pt-BR + English)
+🌐 **Website:** [rafaelkrause.github.io/TimeTrack](https://rafaelkrause.github.io/TimeTrack/) &nbsp;·&nbsp; 📘 **Docs:** [rafaelkrause.github.io/TimeTrack/docs](https://rafaelkrause.github.io/TimeTrack/docs/) (pt-BR + English)
 
 ## Download & install
 
 ### Windows
 
-1. Download the latest installer: **[JobTracker-Setup.exe](https://github.com/rafaelkrause/job_tracker/releases/latest)**
+1. Download the latest installer: **[TimeTrack-Setup.exe](https://github.com/rafaelkrause/TimeTrack/releases/latest)**
 2. Run it. Per-user install, no admin required. SmartScreen may warn — click **More info → Run anyway**.
 3. Launch from the Start Menu or desktop shortcut.
 
-Data lives in `%APPDATA%\JobTracker`, is preserved across updates, and the installer bundles an embedded Python runtime (no system Python required).
+Data lives in `%APPDATA%\TimeTrack`, is preserved across updates, and the installer bundles an embedded Python runtime (no system Python required).
 
 ### Linux / macOS
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash
 ```
 
-One-liner that downloads the latest release, installs it into `~/.local/share/job-tracker/.venv`, and drops a `job-tracker` launcher on your `PATH`. Add `--service` to start the app at login via `systemd --user` (Linux) or `LaunchAgent` (macOS).
+One-liner that downloads the latest release, installs it into `~/.local/share/timetrack/.venv`, and drops a `timetrack` launcher on your `PATH`. Add `--service` to start the app at login via `systemd --user` (Linux) or `LaunchAgent` (macOS).
 
 Requires Python 3.10+ (`python3 --version`). On Ubuntu/Debian: `sudo apt install python3 python3-venv`. On macOS: `brew install python@3.11` (or [python.org](https://www.python.org/downloads/)).
 
-Uninstall: `bash -s -- --uninstall` (keeps data) or `--uninstall --purge-data` (wipes it). Full details in the [installation guide](https://rafaelkrause.github.io/job_tracker/docs/installation/).
+Uninstall: `bash -s -- --uninstall` (keeps data) or `--uninstall --purge-data` (wipes it). Full details in the [installation guide](https://rafaelkrause.github.io/TimeTrack/docs/installation/).
 
 ## Screenshots
 
@@ -67,8 +67,8 @@ A aplicação e a documentação são **bilíngues** (inglês + português do Br
 ## From source (contributors)
 
 ```bash
-git clone https://github.com/rafaelkrause/job_tracker.git
-cd job_tracker
+git clone https://github.com/rafaelkrause/TimeTrack.git
+cd TimeTrack
 ./install.sh
 ```
 
@@ -82,10 +82,10 @@ pip install -e "."                  # runtime
 pip install -e ".[dev]"
 ```
 
-Once installed, the `job-tracker` command is on your PATH:
+Once installed, the `timetrack` command is on your PATH:
 
 ```bash
-job-tracker --no-browser
+timetrack --no-browser
 ```
 
 To build the Windows installer from source (Linux host):
@@ -93,7 +93,7 @@ To build the Windows installer from source (Linux host):
 ```bash
 sudo apt install nsis
 ./installer/build_installer.sh 1.0.0
-# → installer/JobTracker-Setup-1.0.0.exe
+# → installer/TimeTrack-Setup-1.0.0.exe
 ```
 
 ## Running
@@ -105,7 +105,7 @@ python3 run.py --no-browser  # starts the server without opening a browser
 
 The server listens on `http://127.0.0.1:5000` by default. The tray icon owns the main thread and Flask runs in a daemon thread; on headless systems with no window manager the app falls back to running Flask in the foreground.
 
-A `job-tracker.sh` helper is included for launching from the Linux shell.
+A `timetrack.sh` helper is included for launching from the Linux shell.
 
 ## Configuration
 
@@ -153,7 +153,7 @@ PUT  /api/config
 ## Project layout
 
 ```
-job_tracker/
+TimeTrack/
 ├── run.py                 # entry point
 ├── requirements.txt
 ├── config.json            # user config (auto-generated, gitignored)

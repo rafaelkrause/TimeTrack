@@ -1,13 +1,13 @@
 # Configuração
 
-Referência completa das opções configuráveis do Job Tracker.
+Referência completa das opções configuráveis do TimeTrack.
 
 ## Localização do `config.json`
 
 | Plataforma | Caminho |
 |---|---|
 | Linux / macOS | `config.json` na raiz do projeto |
-| Windows (instalador) | `%APPDATA%\JobTracker\config.json` |
+| Windows (instalador) | `%APPDATA%\TimeTrack\config.json` |
 
 Gerado automaticamente na primeira execução. Pode ser editado direto no arquivo ou via **Configurações** na UI.
 
@@ -55,7 +55,7 @@ Cada dia é uma **lista** de blocos, cada bloco com:
 Um entre: `"light"`, `"dark"`, `"auto"`.
 
 - `auto` segue a preferência do sistema operacional via `prefers-color-scheme`.
-- A UI também persiste a escolha corrente em `localStorage` (chave `jt-theme`).
+- A UI também persiste a escolha corrente em `localStorage` (chave `tt-theme`).
 
 ### `port` (número)
 

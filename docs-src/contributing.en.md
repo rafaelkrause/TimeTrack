@@ -1,12 +1,12 @@
 # Contributing
 
-Thanks for considering a contribution to `job_tracker`! This page summarizes the essentials; the full guide lives in [CONTRIBUTING.md](https://github.com/rafaelkrause/job_tracker/blob/main/CONTRIBUTING.md) in the repo.
+Thanks for considering a contribution to `TimeTrack`! This page summarizes the essentials; the full guide lives in [CONTRIBUTING.md](https://github.com/rafaelkrause/TimeTrack/blob/main/CONTRIBUTING.md) in the repo.
 
 ## Quick setup
 
 ```bash
-git clone https://github.com/rafaelkrause/job_tracker.git
-cd job_tracker
+git clone https://github.com/rafaelkrause/TimeTrack.git
+cd TimeTrack
 
 python3 -m venv .venv
 source .venv/bin/activate
@@ -64,4 +64,4 @@ pybabel init -i app/i18n/messages.pot -d app/i18n -l <code>
 
 ## Code of Conduct
 
-This project follows the [Contributor Covenant Code of Conduct](https://github.com/rafaelkrause/job_tracker/blob/main/CODE_OF_CONDUCT.md). By participating you agree to keep the community respectful and welcoming.
+This project follows the [Contributor Covenant Code of Conduct](https://github.com/rafaelkrause/TimeTrack/blob/main/CODE_OF_CONDUCT.md). By participating you agree to keep the community respectful and welcoming.

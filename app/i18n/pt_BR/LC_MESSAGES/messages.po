@@ -1,12 +1,12 @@
-# Brazilian Portuguese translations for Job Tracker.
+# Brazilian Portuguese translations for TimeTrack.
 # Copyright (C) 2026 Rafael Krause
-# This file is distributed under the same license as the Job Tracker
+# This file is distributed under the same license as the TimeTrack
 # project.
 # Rafael Krause <rafaelkrause@gmail.com>, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:  job-tracker\n"
+"Project-Id-Version:  timetrack\n"
 "Report-Msgid-Bugs-To: rafaelkrause@gmail.com\n"
 "POT-Creation-Date: 2026-04-20 16:01-0300\n"
 "PO-Revision-Date: 2026-04-19 19:15-0300\n"
@@ -335,12 +335,12 @@ msgid "This action cannot be undone."
 msgstr "Esta ação não pode ser desfeita."
 
 #: app/templates/focus.html:14
-msgid "Opening Job Tracker..."
-msgstr "Abrindo Job Tracker..."
+msgid "Opening TimeTrack..."
+msgstr "Abrindo TimeTrack..."
 
 #: app/templates/focus.html:16
-msgid "Job Tracker is already open in another tab."
-msgstr "Job Tracker já está aberto em outra aba."
+msgid "TimeTrack is already open in another tab."
+msgstr "TimeTrack já está aberto em outra aba."
 
 #: app/templates/focus.html:17
 msgid "You can close this tab."

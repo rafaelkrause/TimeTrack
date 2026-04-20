@@ -333,11 +333,11 @@ msgid "This action cannot be undone."
 msgstr ""
 
 #: app/templates/focus.html:14
-msgid "Opening Job Tracker..."
+msgid "Opening TimeTrack..."
 msgstr ""
 
 #: app/templates/focus.html:16
-msgid "Job Tracker is already open in another tab."
+msgid "TimeTrack is already open in another tab."
 msgstr ""
 
 #: app/templates/focus.html:17

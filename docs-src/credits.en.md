@@ -1,6 +1,6 @@
 # Credits and third-party
 
-This page lists every library, font, icon set and bundled content used by Job Tracker, so attribution stays transparent and license audits are easy.
+This page lists every library, font, icon set and bundled content used by TimeTrack, so attribution stays transparent and license audits are easy.
 
 ## Runtime dependencies (Python)
 
@@ -89,4 +89,4 @@ Development was assisted by [Claude Code](https://claude.ai/claude-code) (Anthro
 
 ## License
 
-Job Tracker itself is distributed under the [MIT license](https://github.com/rafaelkrause/job_tracker/blob/main/LICENSE). The third-party components listed above remain under their original licenses.
+TimeTrack itself is distributed under the [MIT license](https://github.com/rafaelkrause/TimeTrack/blob/main/LICENSE). The third-party components listed above remain under their original licenses.

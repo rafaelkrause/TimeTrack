@@ -15,13 +15,13 @@ python3 run.py                     # opens browser
 python3 run.py --no-browser        # headless
 
 # Helper script
-./job-tracker.sh
+./timetrack.sh
 
 # Full install
 ./install.sh
 ```
 
-Windows: NSIS installer (`installer/build_installer.sh X.Y.Z` → `JobTracker-Setup-X.Y.Z.exe`). Per-user install to `%LOCALAPPDATA%\Programs\JobTracker`, data under `%APPDATA%\JobTracker`, embedded Python runtime bundled. Optional NSSM-based Windows service component.
+Windows: NSIS installer (`installer/build_installer.sh X.Y.Z` → `TimeTrack-Setup-X.Y.Z.exe`). Per-user install to `%LOCALAPPDATA%\Programs\TimeTrack`, data under `%APPDATA%\TimeTrack`, embedded Python runtime bundled. Optional NSSM-based Windows service component.
 
 ## Stack
 
@@ -37,7 +37,7 @@ Windows: NSIS installer (`installer/build_installer.sh X.Y.Z` → `JobTracker-Se
 **Entry point:** `run.py` — starts Flask server. `pystray` owns the main thread and Flask runs in a daemon thread. On headless systems where the tray cannot attach (no window manager), Flask runs in the main thread and the browser is auto-opened (unless `--no-browser`).
 
 **User data dir resolution (`app/__init__.py::get_user_data_dir`):**
-1. `$JOBTRACKER_DATA_DIR` (set by the Windows installer / service wrapper)
+1. `$TIMETRACK_DATA_DIR` (set by the Windows installer / service wrapper)
 2. Project root (dev mode)
 
 Resolves to `config.json` + `data/` under that directory.
@@ -54,7 +54,7 @@ Resolves to `config.json` + `data/` under that directory.
 
 **Frontend:** Single-page-like.
 - `app/templates/` — `base.html`, `dashboard.html`, `settings.html`, `focus.html` (opened by tray to focus/re-open the dashboard tab).
-- `app/static/js/app.js` — polling (current activity every 30s + revision check for cross-client sync), local-increment timer, timeline rendering, theme toggle (localStorage key `jt-theme`).
+- `app/static/js/app.js` — polling (current activity every 30s + revision check for cross-client sync), local-increment timer, timeline rendering, theme toggle (localStorage key `tt-theme`).
 - `app/static/css/style.css`.
 
 **Installer / packaging:**
@@ -64,8 +64,8 @@ Resolves to `config.json` + `data/` under that directory.
 - `.github/workflows/docs.yml` — builds MkDocs into `site/docs/`, overlays `landing/*` into `site/`, and deploys the composed site to GitHub Pages.
 
 **Docs & website:**
-- `landing/` — static HTML landing page (bilingual: `index.html` pt-BR + `en/index.html`). Bootstrap 5.3 via CDN, no build step. Published at the root `https://rafaelkrause.github.io/job_tracker/`.
-- `docs-src/` — MkDocs Material source (bilingual via mkdocs-static-i18n, default pt-BR). MkDocs `site_dir` is `site/docs`; published at `https://rafaelkrause.github.io/job_tracker/docs/`.
+- `landing/` — static HTML landing page (bilingual: `index.html` pt-BR + `en/index.html`). Bootstrap 5.3 via CDN, no build step. Published at the root `https://rafaelkrause.github.io/TimeTrack/`.
+- `docs-src/` — MkDocs Material source (bilingual via mkdocs-static-i18n, default pt-BR). MkDocs `site_dir` is `site/docs`; published at `https://rafaelkrause.github.io/TimeTrack/docs/`.
 - Local preview of docs only: `mkdocs serve`.
 - Local preview of full site: `mkdocs build && cp -r landing/. site/ && python -m http.server --directory site 8000`.
 - `README.md` — project overview.
@@ -121,7 +121,7 @@ GET    /api/revision                   monotonic counter; clients poll to detect
 ## Language
 
 - **Codebase**: English only (identifiers, comments, docstrings, logs, tests).
-- **Application UI**: bilingual EN + pt-BR via Flask-Babel. Default locale `pt_BR`. Locale resolution: `jt-lang` cookie → `Accept-Language` header → default.
+- **Application UI**: bilingual EN + pt-BR via Flask-Babel. Default locale `pt_BR`. Locale resolution: `tt-lang` cookie → `Accept-Language` header → default.
 - **Documentation**: bilingual (pt-BR default, EN variants under `docs/en/` and `wiki/*-EN.md`).
 
 Translation workflow:

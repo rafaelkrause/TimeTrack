@@ -1,8 +1,8 @@
 ; =============================================================================
-;  Job Tracker — Windows Installer (NSIS, MUI2)
+;  TimeTrack — Windows Installer (NSIS, MUI2)
 ;
-;  Per-user install:   %LOCALAPPDATA%\Programs\JobTracker
-;  Per-user data:      %APPDATA%\JobTracker
+;  Per-user install:   %LOCALAPPDATA%\Programs\TimeTrack
+;  Per-user data:      %APPDATA%\TimeTrack
 ;  Python:             bundled embeddable (no system Python required)
 ;  Service wrapper:    NSSM (optional component)
 ;
@@ -25,27 +25,28 @@ SetCompressor /SOLID lzma
   !define PY_EMBED_TAG "python311"
 !endif
 
-!define APP_NAME          "Job Tracker"
+!define APP_NAME          "TimeTrack"
 !define APP_PUBLISHER     "Rafael Krause"
-!define APP_URL           "https://github.com/rafaelkrause/job_tracker"
-!define APP_EXE_DISPLAY   "job-tracker-silent.vbs"
-!define UNINST_KEY        "Software\Microsoft\Windows\CurrentVersion\Uninstall\JobTracker"
-!define APPDATA_KEY       "Software\JobTracker"
-!define SERVICE_NAME      "JobTracker"
+!define APP_URL           "https://github.com/rafaelkrause/TimeTrack"
+!define APP_LAUNCH_EXE    "python\pythonw.exe"
+!define APP_LAUNCH_ARGS   '"$INSTDIR\app\run.py"'
+!define UNINST_KEY        "Software\Microsoft\Windows\CurrentVersion\Uninstall\TimeTrack"
+!define APPDATA_KEY       "Software\TimeTrack"
+!define SERVICE_NAME      "TimeTrack"
 
 Name "${APP_NAME}"
-OutFile "${BUILD_DIR}\..\JobTracker-Setup-${APP_VERSION}.exe"
-InstallDir "$LOCALAPPDATA\Programs\JobTracker"
+OutFile "${BUILD_DIR}\..\TimeTrack-Setup-${APP_VERSION}.exe"
+InstallDir "$LOCALAPPDATA\Programs\TimeTrack"
 InstallDirRegKey HKCU "${APPDATA_KEY}" "InstallDir"
 RequestExecutionLevel user
 ShowInstDetails show
 ShowUninstDetails show
-BrandingText "Job Tracker ${APP_VERSION}"
+BrandingText "TimeTrack ${APP_VERSION}"
 
 VIProductVersion "${APP_VERSION}.0"
 VIAddVersionKey "ProductName"     "${APP_NAME}"
 VIAddVersionKey "CompanyName"     "${APP_PUBLISHER}"
-VIAddVersionKey "FileDescription" "Job Tracker Installer"
+VIAddVersionKey "FileDescription" "TimeTrack Installer"
 VIAddVersionKey "FileVersion"     "${APP_VERSION}"
 VIAddVersionKey "ProductVersion"  "${APP_VERSION}"
 VIAddVersionKey "LegalCopyright"  "© ${APP_PUBLISHER}"
@@ -57,12 +58,13 @@ VIAddVersionKey "LegalCopyright"  "© ${APP_PUBLISHER}"
 !include "nsDialogs.nsh"
 !include "WinMessages.nsh"
 
-!define MUI_ICON   "${BUILD_DIR}\resources\job-tracker.ico"
-!define MUI_UNICON "${BUILD_DIR}\resources\job-tracker.ico"
+!define MUI_ICON   "${BUILD_DIR}\resources\timetrack.ico"
+!define MUI_UNICON "${BUILD_DIR}\resources\timetrack.ico"
 !define MUI_ABORTWARNING
-!define MUI_FINISHPAGE_RUN         "$INSTDIR\${APP_EXE_DISPLAY}"
-!define MUI_FINISHPAGE_RUN_TEXT    "Iniciar o Job Tracker"
-!define MUI_FINISHPAGE_LINK        "Abrir no navegador"
+!define MUI_FINISHPAGE_RUN           "$INSTDIR\${APP_LAUNCH_EXE}"
+!define MUI_FINISHPAGE_RUN_PARAMETERS "${APP_LAUNCH_ARGS}"
+!define MUI_FINISHPAGE_RUN_TEXT      "Iniciar o TimeTrack"
+!define MUI_FINISHPAGE_LINK          "Abrir no navegador"
 !define MUI_FINISHPAGE_LINK_LOCATION "http://127.0.0.1:5000"
 
 !insertmacro MUI_PAGE_WELCOME
@@ -93,7 +95,7 @@ LangString DESC_SecService   ${LANG_ENGLISH} "Run in the background as a Windows
 ; SECTIONS
 ; =============================================================================
 
-Section "!Job Tracker (obrigatório)" SecCore
+Section "!TimeTrack (obrigatório)" SecCore
   SectionIn RO
   SetOutPath "$INSTDIR"
 
@@ -124,8 +126,7 @@ Section "!Job Tracker (obrigatório)" SecCore
 
   ; ----- Icon ---------------------------------------------------------------
   SetOutPath "$INSTDIR"
-  File "${BUILD_DIR}\resources\job-tracker.ico"
-  File "${BUILD_DIR}\resources\job-tracker-silent.vbs"
+  File "${BUILD_DIR}\resources\timetrack.ico"
   File "${BUILD_DIR}\resources\LICENSE.txt"
 
   ; ----- pip bootstrap + install dependencies -------------------------------
@@ -143,29 +144,29 @@ Section "!Job Tracker (obrigatório)" SecCore
     DetailPrint "AVISO: pip install retornou código $0"
   ${EndIf}
 
-  ; ----- Generate job-tracker.bat (console launcher) ------------------------
-  FileOpen $0 "$INSTDIR\job-tracker.bat" w
+  ; ----- Generate timetrack.bat (console launcher) --------------------------
+  FileOpen $0 "$INSTDIR\timetrack.bat" w
     FileWrite $0 '@echo off$\r$\n'
     FileWrite $0 'setlocal$\r$\n'
-    FileWrite $0 'set "JOBTRACKER_DATA_DIR=%APPDATA%\JobTracker"$\r$\n'
+    FileWrite $0 'set "TIMETRACK_DATA_DIR=%APPDATA%\TimeTrack"$\r$\n'
     FileWrite $0 'cd /d "$INSTDIR\app"$\r$\n'
     FileWrite $0 '"$INSTDIR\python\python.exe" run.py %*$\r$\n'
   FileClose $0
 
   ; ----- Per-user data directory --------------------------------------------
-  CreateDirectory "$APPDATA\JobTracker"
-  CreateDirectory "$APPDATA\JobTracker\data"
+  CreateDirectory "$APPDATA\TimeTrack"
+  CreateDirectory "$APPDATA\TimeTrack\data"
 
   ; ----- Registry: Add/Remove Programs --------------------------------------
   WriteRegStr HKCU "${APPDATA_KEY}" "InstallDir"    "$INSTDIR"
   WriteRegStr HKCU "${APPDATA_KEY}" "Version"       "${APP_VERSION}"
-  WriteRegStr HKCU "${APPDATA_KEY}" "DataDir"       "$APPDATA\JobTracker"
+  WriteRegStr HKCU "${APPDATA_KEY}" "DataDir"       "$APPDATA\TimeTrack"
 
   WriteRegStr HKCU "${UNINST_KEY}" "DisplayName"     "${APP_NAME}"
   WriteRegStr HKCU "${UNINST_KEY}" "DisplayVersion"  "${APP_VERSION}"
   WriteRegStr HKCU "${UNINST_KEY}" "Publisher"       "${APP_PUBLISHER}"
   WriteRegStr HKCU "${UNINST_KEY}" "URLInfoAbout"    "${APP_URL}"
-  WriteRegStr HKCU "${UNINST_KEY}" "DisplayIcon"     "$INSTDIR\job-tracker.ico"
+  WriteRegStr HKCU "${UNINST_KEY}" "DisplayIcon"     "$INSTDIR\timetrack.ico"
   WriteRegStr HKCU "${UNINST_KEY}" "InstallLocation" "$INSTDIR"
   WriteRegStr HKCU "${UNINST_KEY}" "UninstallString" '"$INSTDIR\Uninstall.exe"'
   WriteRegStr HKCU "${UNINST_KEY}" "QuietUninstallString" '"$INSTDIR\Uninstall.exe" /S'
@@ -180,13 +181,16 @@ Section "!Job Tracker (obrigatório)" SecCore
 SectionEnd
 
 Section "Atalho na Área de Trabalho" SecDesktop
-  CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_EXE_DISPLAY}" "" "$INSTDIR\job-tracker.ico" 0
+  ; SetOutPath defines the shortcut's WorkingDir — run.py must resolve from $INSTDIR\app.
+  SetOutPath "$INSTDIR\app"
+  CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCH_EXE}" "${APP_LAUNCH_ARGS}" "$INSTDIR\timetrack.ico" 0 SW_SHOWMINIMIZED
 SectionEnd
 
 Section "Atalho no Menu Iniciar" SecStartMenu
   CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-  CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\${APP_EXE_DISPLAY}" "" "$INSTDIR\job-tracker.ico" 0
-  CreateShortCut "$SMPROGRAMS\${APP_NAME}\Abrir no navegador.lnk" "http://127.0.0.1:5000" "" "$INSTDIR\job-tracker.ico" 0
+  SetOutPath "$INSTDIR\app"
+  CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCH_EXE}" "${APP_LAUNCH_ARGS}" "$INSTDIR\timetrack.ico" 0 SW_SHOWMINIMIZED
+  CreateShortCut "$SMPROGRAMS\${APP_NAME}\Abrir no navegador.lnk" "http://127.0.0.1:5000" "" "$INSTDIR\timetrack.ico" 0
   CreateShortCut "$SMPROGRAMS\${APP_NAME}\Desinstalar.lnk" "$INSTDIR\Uninstall.exe"
 SectionEnd
 
@@ -207,12 +211,12 @@ Section /o "Rodar como serviço do Windows" SecService
     FileWrite $0 ')$\r$\n'
     FileWrite $0 '"$INSTDIR\nssm\nssm.exe" install ${SERVICE_NAME} "$INSTDIR\python\pythonw.exe" "$INSTDIR\app\run.py" --no-browser$\r$\n'
     FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppDirectory "$INSTDIR\app"$\r$\n'
-    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} DisplayName "Job Tracker"$\r$\n'
-    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} Description "Job Tracker - hour tracking web UI (localhost:5000)"$\r$\n'
+    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} DisplayName "TimeTrack"$\r$\n'
+    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} Description "TimeTrack - hour tracking web UI (localhost:5000)"$\r$\n'
     FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} Start SERVICE_AUTO_START$\r$\n'
-    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppEnvironmentExtra "JOBTRACKER_DATA_DIR=$APPDATA\JobTracker"$\r$\n'
-    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppStdout "$APPDATA\JobTracker\service.log"$\r$\n'
-    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppStderr "$APPDATA\JobTracker\service.log"$\r$\n'
+    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppEnvironmentExtra "TIMETRACK_DATA_DIR=$APPDATA\TimeTrack"$\r$\n'
+    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppStdout "$APPDATA\TimeTrack\service.log"$\r$\n'
+    FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppStderr "$APPDATA\TimeTrack\service.log"$\r$\n'
     FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppStdoutCreationDisposition 4$\r$\n'
     FileWrite $0 '"$INSTDIR\nssm\nssm.exe" set ${SERVICE_NAME} AppStderrCreationDisposition 4$\r$\n'
     FileWrite $0 '"$INSTDIR\nssm\nssm.exe" start ${SERVICE_NAME}$\r$\n'
@@ -254,7 +258,7 @@ Function .onInit
   ; Prevent duplicate installs
   ReadRegStr $0 HKCU "${UNINST_KEY}" "UninstallString"
   ${If} $0 != ""
-    MessageBox MB_YESNO|MB_ICONQUESTION "Uma versão do Job Tracker já está instalada.$\n$\nDeseja desinstalar antes de continuar?" IDNO +2
+    MessageBox MB_YESNO|MB_ICONQUESTION "Uma versão do TimeTrack já está instalada.$\n$\nDeseja desinstalar antes de continuar?" IDNO +2
       ExecWait '$0 /S _?=$INSTDIR'
   ${EndIf}
 FunctionEnd
@@ -274,9 +278,9 @@ Section "Uninstall"
     ${EndIf}
   ${EndIf}
 
-  ; Kill any running instance of the silent launcher / pythonw.
+  ; Kill any running pythonw instance serving the app.
   DetailPrint "Encerrando instâncias em execução..."
-  nsExec::ExecToLog 'taskkill /F /IM pythonw.exe /FI "WINDOWTITLE eq Job Tracker*"'
+  nsExec::ExecToLog 'taskkill /F /IM pythonw.exe /FI "WINDOWTITLE eq TimeTrack*"'
   Pop $0
 
   ; Remove shortcuts
@@ -291,18 +295,17 @@ Section "Uninstall"
   RMDir /r "$INSTDIR\app"
   RMDir /r "$INSTDIR\wheels"
   RMDir /r "$INSTDIR\nssm"
-  Delete "$INSTDIR\job-tracker.bat"
-  Delete "$INSTDIR\job-tracker-silent.vbs"
+  Delete "$INSTDIR\timetrack.bat"
   Delete "$INSTDIR\install-service.bat"
   Delete "$INSTDIR\uninstall-service.bat"
-  Delete "$INSTDIR\job-tracker.ico"
+  Delete "$INSTDIR\timetrack.ico"
   Delete "$INSTDIR\LICENSE.txt"
   Delete "$INSTDIR\Uninstall.exe"
   RMDir  "$INSTDIR"
 
   ; Ask before wiping user data.
-  MessageBox MB_YESNO|MB_ICONQUESTION "Remover também os dados do usuário em $APPDATA\JobTracker (config.json e histórico)?" IDNO +2
-    RMDir /r "$APPDATA\JobTracker"
+  MessageBox MB_YESNO|MB_ICONQUESTION "Remover também os dados do usuário em $APPDATA\TimeTrack (config.json e histórico)?" IDNO +2
+    RMDir /r "$APPDATA\TimeTrack"
 
   ; Registry cleanup
   DeleteRegKey HKCU "${UNINST_KEY}"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# install-remote.sh — remote installer for Job Tracker on Linux and macOS.
+# install-remote.sh — remote installer for TimeTrack on Linux and macOS.
 #
 # Downloads the published wheel from GitHub Releases, installs it in an
 # isolated virtualenv, writes a launcher on PATH, optionally registers a
@@ -8,33 +8,33 @@
 # uninstall everything it created.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash -s -- --service
+#   curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash -s -- --service
 #
 #   # Uninstall (keep user data):
-#   curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash -s -- --uninstall
+#   curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash -s -- --uninstall
 #
 #   # Uninstall and wipe user data:
-#   curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash -s -- --uninstall --purge-data
+#   curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash -s -- --uninstall --purge-data
 #
 # Environment variables:
-#   JT_VERSION=0.1.0   Pin a specific release (default: latest).
-#   JT_PREFIX=PATH     Install prefix (default: ~/.local/share/job-tracker).
+#   TT_VERSION=0.1.0   Pin a specific release (default: latest).
+#   TT_PREFIX=PATH     Install prefix (default: ~/.local/share/timetrack).
 # =============================================================================
 set -euo pipefail
 
-REPO="rafaelkrause/job_tracker"
-SERVICE_LABEL="com.rafaelkrause.jobtracker"
+REPO="rafaelkrause/TimeTrack"
+SERVICE_LABEL="com.rafaelkrause.timetrack"
 
-PREFIX="${JT_PREFIX:-$HOME/.local/share/job-tracker}"
+PREFIX="${TT_PREFIX:-$HOME/.local/share/timetrack}"
 BIN_DIR="$HOME/.local/bin"
 DESKTOP_DIR="$HOME/.local/share/applications"
 VENV_DIR="$PREFIX/.venv"
 DATA_DIR="$PREFIX/user"
 LOGS_DIR="$PREFIX/logs"
-LAUNCHER="$BIN_DIR/job-tracker"
-DESKTOP_FILE="$DESKTOP_DIR/job-tracker.desktop"
-SYSTEMD_UNIT="$HOME/.config/systemd/user/job-tracker.service"
+LAUNCHER="$BIN_DIR/timetrack"
+DESKTOP_FILE="$DESKTOP_DIR/timetrack.desktop"
+SYSTEMD_UNIT="$HOME/.config/systemd/user/timetrack.service"
 LAUNCHD_PLIST="$HOME/Library/LaunchAgents/$SERVICE_LABEL.plist"
 
 BOLD='\033[1m'
@@ -54,7 +54,7 @@ PURGE_DATA=0
 usage() {
     sed -n '3,22p' "$0" 2>/dev/null || cat <<EOF
 Usage: install-remote.sh [--service] [--uninstall [--purge-data]]
-Env:   JT_VERSION=X.Y.Z, JT_NO_TRAY=1, JT_PREFIX=path
+Env:   TT_VERSION=X.Y.Z, TT_NO_TRAY=1, TT_PREFIX=path
 EOF
 }
 
@@ -103,7 +103,7 @@ service_exists() {
 service_stop_and_disable() {
     if [ "$OS" = linux ]; then
         if command -v systemctl >/dev/null 2>&1 && [ -f "$SYSTEMD_UNIT" ]; then
-            systemctl --user disable --now job-tracker.service 2>/dev/null || true
+            systemctl --user disable --now timetrack.service 2>/dev/null || true
         fi
     else
         if [ -f "$LAUNCHD_PLIST" ] && command -v launchctl >/dev/null 2>&1; then
@@ -116,12 +116,12 @@ write_systemd_unit() {
     mkdir -p "$(dirname "$SYSTEMD_UNIT")"
     cat > "$SYSTEMD_UNIT" <<EOF
 [Unit]
-Description=Job Tracker (self-hosted hour tracker)
+Description=TimeTrack (self-hosted hour tracker)
 After=network.target
 
 [Service]
 Type=simple
-Environment=JOBTRACKER_DATA_DIR=$DATA_DIR
+Environment=TIMETRACK_DATA_DIR=$DATA_DIR
 ExecStart=$LAUNCHER --no-browser
 Restart=on-failure
 RestartSec=5
@@ -131,10 +131,10 @@ WantedBy=default.target
 EOF
     if command -v systemctl >/dev/null 2>&1; then
         systemctl --user daemon-reload
-        systemctl --user enable --now job-tracker.service
+        systemctl --user enable --now timetrack.service
         ok "systemd user service enabled and started"
-        info "  Status: systemctl --user status job-tracker"
-        info "  Logs:   journalctl --user -u job-tracker -f"
+        info "  Status: systemctl --user status timetrack"
+        info "  Logs:   journalctl --user -u timetrack -f"
     else
         warn "systemctl not found — unit written to $SYSTEMD_UNIT but not started"
     fi
@@ -156,7 +156,7 @@ write_launchd_plist() {
     </array>
     <key>EnvironmentVariables</key>
     <dict>
-        <key>JOBTRACKER_DATA_DIR</key>
+        <key>TIMETRACK_DATA_DIR</key>
         <string>$DATA_DIR</string>
     </dict>
     <key>RunAtLoad</key>
@@ -190,7 +190,7 @@ EOF
 
 install_main() {
     info "═══════════════════════════════════════"
-    info "  Job Tracker — remote install ($OS)"
+    info "  TimeTrack — remote install ($OS)"
     info "═══════════════════════════════════════"
     ok "Python $PY_VER"
 
@@ -199,9 +199,9 @@ install_main() {
     # ---- Resolve wheel URL from GitHub Releases
     info "Resolving release from github.com/$REPO…"
     eval "$(
-        JT_VERSION="${JT_VERSION:-}" REPO="$REPO" python3 - <<'PY'
+        TT_VERSION="${TT_VERSION:-}" REPO="$REPO" python3 - <<'PY'
 import json, os, sys, urllib.request, shlex
-tag = os.environ.get("JT_VERSION", "").strip()
+tag = os.environ.get("TT_VERSION", "").strip()
 repo = os.environ["REPO"]
 url = (
     f"https://api.github.com/repos/{repo}/releases/tags/v{tag.lstrip('v')}"
@@ -238,14 +238,14 @@ PY
     # ---- Install wheel (pystray + Pillow are regular runtime deps now)
     info "Installing wheel…"
     "$PIP" install --quiet "$WHL_URL"
-    ok "Job Tracker $REL_TAG installed"
+    ok "TimeTrack $REL_TAG installed"
 
     # ---- Launcher on PATH
     cat > "$LAUNCHER" <<EOF
 #!/usr/bin/env bash
-# Job Tracker launcher — installed by install-remote.sh
-export JOBTRACKER_DATA_DIR="\${JOBTRACKER_DATA_DIR:-$DATA_DIR}"
-exec "$VENV_DIR/bin/job-tracker" "\$@"
+# TimeTrack launcher — installed by install-remote.sh
+export TIMETRACK_DATA_DIR="\${TIMETRACK_DATA_DIR:-$DATA_DIR}"
+exec "$VENV_DIR/bin/timetrack" "\$@"
 EOF
     chmod +x "$LAUNCHER"
     ok "Launcher: $LAUNCHER"
@@ -262,7 +262,7 @@ EOF
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Job Tracker
+Name=TimeTrack
 GenericName=Hour Tracker
 Comment=Self-hosted hour-tracking tool
 Exec=$LAUNCHER
@@ -291,8 +291,8 @@ EOF
     info "  Install complete"
     info "═══════════════════════════════════════"
     echo
-    echo "  Run:        job-tracker"
-    echo "  Headless:   job-tracker --no-browser"
+    echo "  Run:        timetrack"
+    echo "  Headless:   timetrack --no-browser"
     echo "  UI:         http://localhost:5000"
     echo "  Data dir:   $DATA_DIR"
     if [ "$WITH_SERVICE" = "0" ]; then
@@ -311,7 +311,7 @@ EOF
 
 uninstall_main() {
     info "═══════════════════════════════════════"
-    info "  Job Tracker — uninstall ($OS)"
+    info "  TimeTrack — uninstall ($OS)"
     info "═══════════════════════════════════════"
 
     if service_exists; then

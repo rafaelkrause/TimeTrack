@@ -1,6 +1,6 @@
 # API Reference
 
-HTTP endpoints served by the local Job Tracker. All relative to `http://localhost:5000` (or the port configured in `config.json`).
+HTTP endpoints served by the local TimeTrack. All relative to `http://localhost:5000` (or the port configured in `config.json`).
 
 ## Conventions
 
@@ -149,7 +149,7 @@ Exports **completed** activities in the range, in the requested format (`csv` or
 Response `200` with:
 
 - `Content-Type: text/csv` or `text/tab-separated-values`
-- `Content-Disposition: attachment; filename="jobtracker_YYYY-MM-DD_YYYY-MM-DD.csv"`
+- `Content-Disposition: attachment; filename="timetrack_YYYY-MM-DD_YYYY-MM-DD.csv"`
 
 Fields: date, description, start, end, duration (minutes).
 
@@ -201,7 +201,7 @@ or
 { "lang": "en" }
 ```
 
-Sets the `jt-lang` cookie. The next render uses the chosen language.
+Sets the `tt-lang` cookie. The next render uses the chosen language.
 
 ### `GET /api/revision`
 

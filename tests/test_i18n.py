@@ -18,7 +18,7 @@ def test_accept_language_en_returns_english_errors(client):
 
 
 def test_lang_cookie_overrides_accept_language(client):
-    client.set_cookie("jt-lang", "en", domain="localhost")
+    client.set_cookie("tt-lang", "en", domain="localhost")
     resp = client.post(
         "/api/activity/start",
         json={},
@@ -31,7 +31,7 @@ def test_set_lang_endpoint_sets_cookie(client):
     resp = client.post("/api/lang", json={"lang": "en"})
     assert resp.status_code == 204
     set_cookie = resp.headers.get("Set-Cookie", "")
-    assert "jt-lang=en" in set_cookie
+    assert "tt-lang=en" in set_cookie
 
 
 def test_set_lang_rejects_unsupported(client):

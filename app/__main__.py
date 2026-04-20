@@ -1,4 +1,4 @@
-"""CLI entry point. Used by the `job-tracker` console script and
+"""CLI entry point. Used by the `timetrack` console script and
 `python -m app`. The legacy `run.py` at the project root delegates here."""
 
 from __future__ import annotations
@@ -61,10 +61,10 @@ def main() -> None:
             daemon=True,
         )
         web_thread.start()
-        print(f"Job Tracker running at {url}")
+        print(f"TimeTrack running at {url}")
         start_tray(url, app)
     else:
-        print(f"Job Tracker running at {url}")
+        print(f"TimeTrack running at {url}")
         print("(No window manager detected — running without system tray)")
         app.run(host=host, port=port, debug=False)
 

@@ -2,7 +2,7 @@
 <html lang="{{ current_lang }}">
 <head>
     <meta charset="UTF-8">
-    <title>Job Tracker</title>
+    <title>TimeTrack</title>
     <style>
         body { font-family: system-ui, sans-serif; display: flex; align-items: center;
                justify-content: center; height: 100vh; margin: 0; color: #555; }
@@ -11,11 +11,11 @@
     </style>
 </head>
 <body>
-    <div class="msg" id="msg">{{ _('Opening Job Tracker...') }}</div>
+    <div class="msg" id="msg">{{ _('Opening TimeTrack...') }}</div>
     <script>
-        const ALREADY_OPEN = "{{ _('Job Tracker is already open in another tab.') }}";
+        const ALREADY_OPEN = "{{ _('TimeTrack is already open in another tab.') }}";
         const CAN_CLOSE = "{{ _('You can close this tab.') }}";
-        const ch = new BroadcastChannel("job-tracker-sync");
+        const ch = new BroadcastChannel("timetrack-sync");
         let acked = false;
 
         ch.addEventListener("message", (e) => {

@@ -21,19 +21,19 @@
         }
     }
 
-    apply(localStorage.getItem('jt-theme') || 'auto');
+    apply(localStorage.getItem('tt-theme') || 'auto');
 
     if (toggle) {
         toggle.addEventListener('click', () => {
-            const cur = localStorage.getItem('jt-theme') || 'auto';
+            const cur = localStorage.getItem('tt-theme') || 'auto';
             const next = THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length];
-            localStorage.setItem('jt-theme', next);
+            localStorage.setItem('tt-theme', next);
             apply(next);
         });
     }
 
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if ((localStorage.getItem('jt-theme') || 'auto') === 'auto') apply('auto');
+        if ((localStorage.getItem('tt-theme') || 'auto') === 'auto') apply('auto');
     });
 
     document.querySelectorAll('.btn-copy').forEach((btn) => {

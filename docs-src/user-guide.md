@@ -1,10 +1,10 @@
 # Guia do usuário
 
-Este guia cobre o fluxo completo do Job Tracker: conceitos, atividades, dashboard, turnos, exportação e API.
+Este guia cobre o fluxo completo do TimeTrack: conceitos, atividades, dashboard, turnos, exportação e API.
 
 ## Primeiro acesso
 
-1. Inicie o servidor: `python3 run.py` (ou `./job-tracker.sh`).
+1. Inicie o servidor: `python3 run.py` (ou `./timetrack.sh`).
 2. O navegador abre em `http://localhost:5000`.
 3. Na primeira execução um `config.json` é criado com defaults (turno 09–12 / 13–18 de seg a sex, tema automático, porta 5000, meta 90%).
 4. Ajuste turnos e preferências em **Configurações**.
@@ -51,7 +51,7 @@ O dashboard tem três modos, escolhidos pelo seletor **Dia / Semana / Mês** ao 
 - **Semana** — segunda a domingo da data selecionada. Os chevrons navegam ±7 dias.
 - **Mês** — mês calendário da data selecionada. Os chevrons navegam ±1 mês.
 
-O modo escolhido fica salvo entre sessões (localStorage `jt-period`); a data volta para hoje a cada reload.
+O modo escolhido fica salvo entre sessões (localStorage `tt-period`); a data volta para hoje a cada reload.
 
 O que o dashboard mostra:
 
@@ -107,7 +107,7 @@ Formato planilha (CSV/TSV) para colar em sistemas externos de apontamento que n�
 | Plataforma | Caminho |
 |---|---|
 | Linux / macOS | `data/YYYY-MM.json` na pasta do projeto |
-| Windows (instalador) | `%APPDATA%\JobTracker\data\YYYY-MM.json` |
+| Windows (instalador) | `%APPDATA%\TimeTrack\data\YYYY-MM.json` |
 
 Um arquivo por mês mantém cada JSON pequeno e fácil de inspecionar à mão. Arquivos com mais de 12 meses são podados automaticamente ao iniciar.
 
@@ -120,6 +120,6 @@ Escritas são **atômicas**: arquivo temporário → `fsync` → `os.replace()`.
 - Deixe uma aba do navegador aberta no dashboard.
 - Use a bandeja para pausar rapidamente sem trocar de janela.
 - Descrições curtas e consistentes facilitam o apontamento semanal na sua planilha / sistema externo.
-- Configure um atalho de teclado do sistema para focar a aba do Job Tracker.
+- Configure um atalho de teclado do sistema para focar a aba do TimeTrack.
 - Ao rodar como serviço (`systemd` / NSSM), use `--no-browser`.
 - Para backup, copie periodicamente a pasta `data/`. É só JSON.

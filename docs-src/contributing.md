@@ -1,12 +1,12 @@
 # Contribuindo
 
-Obrigado por considerar contribuir com o `job_tracker`! Este site resume o essencial; o guia completo fica no [CONTRIBUTING.pt-BR.md](https://github.com/rafaelkrause/job_tracker/blob/main/CONTRIBUTING.pt-BR.md) no repositório.
+Obrigado por considerar contribuir com o `TimeTrack`! Este site resume o essencial; o guia completo fica no [CONTRIBUTING.pt-BR.md](https://github.com/rafaelkrause/TimeTrack/blob/main/CONTRIBUTING.pt-BR.md) no repositório.
 
 ## Setup rápido
 
 ```bash
-git clone https://github.com/rafaelkrause/job_tracker.git
-cd job_tracker
+git clone https://github.com/rafaelkrause/TimeTrack.git
+cd TimeTrack
 
 python3 -m venv .venv
 source .venv/bin/activate
@@ -64,4 +64,4 @@ Os arquivos `.mo` são gerados (não commitados) e precisam ser compilados antes
 
 ## Código de conduta
 
-Este projeto segue o [Contributor Covenant Code of Conduct](https://github.com/rafaelkrause/job_tracker/blob/main/CODE_OF_CONDUCT.md). Participando, você concorda em manter a comunidade respeitosa e acolhedora.
+Este projeto segue o [Contributor Covenant Code of Conduct](https://github.com/rafaelkrause/TimeTrack/blob/main/CODE_OF_CONDUCT.md). Participando, você concorda em manter a comunidade respeitosa e acolhedora.

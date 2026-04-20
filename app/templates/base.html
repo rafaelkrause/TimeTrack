@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Job Tracker{% endblock %}</title>
+    <title>{% block title %}TimeTrack{% endblock %}</title>
     <script>
       // Resolve the active theme before Bootstrap CSS renders to avoid FOUC.
       // Precedence: localStorage (user override) → server config → "auto".
       (function () {
-        window.jtServerTheme = {{ theme|tojson }};
-        var pref = localStorage.getItem("jt-theme") || window.jtServerTheme || "auto";
+        window.ttServerTheme = {{ theme|tojson }};
+        var pref = localStorage.getItem("tt-theme") || window.ttServerTheme || "auto";
         var effective = pref === "auto"
           ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
           : pref;
@@ -25,7 +25,7 @@
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center gap-2" href="/">
                 <i class="bi bi-clock-history"></i>
-                <span>Job Tracker</span>
+                <span>TimeTrack</span>
             </a>
             <div class="d-flex align-items-center gap-2">
                 <a class="btn btn-sm {% if request.path == '/' %}btn-primary{% else %}btn-outline-secondary{% endif %}"

@@ -1,4 +1,4 @@
-# Job Tracker
+# TimeTrack
 
 Ferramenta leve e local de rastreamento de horas, pensada para profissionais de agência. Roda como servidor web em `localhost:5000`, sem banco de dados, com armazenamento em arquivos JSON por mês.
 
@@ -38,6 +38,6 @@ Ferramenta leve e local de rastreamento de horas, pensada para profissionais de 
 
 ## Links rápidos
 
-- Código: [github.com/rafaelkrause/job_tracker](https://github.com/rafaelkrause/job_tracker)
-- Releases: [GitHub Releases](https://github.com/rafaelkrause/job_tracker/releases)
-- Licença: [MIT](https://github.com/rafaelkrause/job_tracker/blob/main/LICENSE)
+- Código: [github.com/rafaelkrause/TimeTrack](https://github.com/rafaelkrause/TimeTrack)
+- Releases: [GitHub Releases](https://github.com/rafaelkrause/TimeTrack/releases)
+- Licença: [MIT](https://github.com/rafaelkrause/TimeTrack/blob/main/LICENSE)

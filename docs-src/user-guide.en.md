@@ -1,13 +1,13 @@
 # User Guide
 
-This guide covers the full Job Tracker flow: concepts, activities, dashboard, shifts, export and API.
+This guide covers the full TimeTrack flow: concepts, activities, dashboard, shifts, export and API.
 
 !!! note
-    The UI strings are in Brazilian Portuguese (pt-BR) by default. You can switch to English via the language dropdown in the UI (it sets the `jt-lang` cookie). This guide translates the concepts and button labels for English-speaking readers.
+    The UI strings are in Brazilian Portuguese (pt-BR) by default. You can switch to English via the language dropdown in the UI (it sets the `tt-lang` cookie). This guide translates the concepts and button labels for English-speaking readers.
 
 ## First run
 
-1. Start the server: `python3 run.py` (or `./job-tracker.sh`).
+1. Start the server: `python3 run.py` (or `./timetrack.sh`).
 2. The browser opens at `http://localhost:5000`.
 3. On first run a `config.json` is created with sensible defaults (shifts 09–12 / 13–18 Mon–Fri, auto theme, port 5000, 90% target).
 4. Tune shifts and preferences under **Configurações** (Settings).
@@ -54,7 +54,7 @@ The dashboard has three modes, chosen via the **Day / Week / Month** selector ne
 - **Week** — Monday through Sunday of the selected date. Chevrons jump ±7 days.
 - **Month** — calendar month of the selected date. Chevrons jump ±1 month.
 
-The chosen mode is remembered across sessions (localStorage `jt-period`); the date resets to today on each reload.
+The chosen mode is remembered across sessions (localStorage `tt-period`); the date resets to today on each reload.
 
 What the dashboard shows:
 
@@ -110,7 +110,7 @@ Spreadsheet format (CSV/TSV) for pasting into external time-entry systems that d
 | Platform | Path |
 |---|---|
 | Linux / macOS | `data/YYYY-MM.json` in the project folder |
-| Windows (installer) | `%APPDATA%\JobTracker\data\YYYY-MM.json` |
+| Windows (installer) | `%APPDATA%\TimeTrack\data\YYYY-MM.json` |
 
 One file per month keeps each JSON small and inspectable by hand. Files older than 12 months are pruned automatically on startup.
 
@@ -123,6 +123,6 @@ Writes are **atomic**: temp file → `fsync` → `os.replace()`. Safe against cr
 - Keep a browser tab open on the dashboard.
 - Use the tray to pause quickly without switching windows.
 - Short, consistent descriptions make weekly logging into your spreadsheet / external system easier.
-- Set up a system keyboard shortcut to focus the Job Tracker tab.
+- Set up a system keyboard shortcut to focus the TimeTrack tab.
 - When running as a service (`systemd` / NSSM), use `--no-browser`.
 - For backup, periodically copy the `data/` folder. It's plain JSON.

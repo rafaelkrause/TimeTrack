@@ -23,12 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and optional motivational phrases.
 - Optional `pystray` system tray integration with pause / resume / stop and
   a "focus existing tab" endpoint (`/focus`).
-- Linux launcher scripts (`install.sh`, `job-tracker.sh`) and a Windows NSIS
+- Linux launcher scripts (`install.sh`, `timetrack.sh`) and a Windows NSIS
   installer with embedded Python runtime and optional NSSM-based service.
 - Bilingual UI (English + Brazilian Portuguese) via Flask-Babel with a
   cookie-based language switcher and Accept-Language fallback.
 - Localized micro-reward phrase catalogs (`phrases_en.json`, `phrases_pt_br.json`).
-- Packaging: PEP 621 `pyproject.toml` (Hatchling build backend), `job-tracker`
+- Packaging: PEP 621 `pyproject.toml` (Hatchling build backend), `timetrack`
   console script, optional `[tray]` and `[dev]` extras.
 - Quality tooling: `ruff` (lint + format), `mypy`, `pytest` + `pytest-cov`,
   `pre-commit` hooks, and a full unit-test suite covering models, storage,
@@ -61,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   meta percentual e frases motivacionais opcionais.
 - Integração opcional com bandeja do sistema via `pystray` (pausar /
   retomar / encerrar) e endpoint `/focus` para refocar aba já aberta.
-- Scripts de lançamento para Linux (`install.sh`, `job-tracker.sh`) e
+- Scripts de lançamento para Linux (`install.sh`, `timetrack.sh`) e
   instalador NSIS para Windows com runtime Python embutido e serviço
   opcional baseado em NSSM.
 - UI bilíngue (inglês + português do Brasil) via Flask-Babel, com troca de
@@ -69,7 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Catálogos localizados de frases de micro-recompensa (`phrases_en.json`,
   `phrases_pt_br.json`).
 - Empacotamento: `pyproject.toml` PEP 621 (backend Hatchling), script de
-  console `job-tracker` e extras opcionais `[tray]` e `[dev]`.
+  console `timetrack` e extras opcionais `[tray]` e `[dev]`.
 - Ferramental de qualidade: `ruff` (lint + format), `mypy`, `pytest` +
   `pytest-cov`, hooks de `pre-commit` e suíte de testes unitários cobrindo
   models, storage, config, export, routes e resolução de locale.
@@ -85,5 +85,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   estrita por campo (tamanho de descrição, formato de horário, faixa de
   porta, faixa de meta, enum de tema, limite de intervalo de exportação).
 
-[Unreleased]: https://github.com/rafaelkrause/job_tracker/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/rafaelkrause/job_tracker/releases/tag/v0.1.0
+[Unreleased]: https://github.com/rafaelkrause/TimeTrack/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/rafaelkrause/TimeTrack/releases/tag/v0.1.0

@@ -4,14 +4,14 @@ const VALID_PERIODS = ["day", "week", "month"];
 
 let currentDate = new Date();
 let currentPeriod = (() => {
-    const stored = localStorage.getItem("jt-period");
+    const stored = localStorage.getItem("tt-period");
     return VALID_PERIODS.includes(stored) ? stored : "day";
 })();
 let timerInterval = null;
 
 // ── Cross-tab sync via BroadcastChannel ───────────────────────────────
 
-const syncChannel = new BroadcastChannel("job-tracker-sync");
+const syncChannel = new BroadcastChannel("timetrack-sync");
 
 syncChannel.addEventListener("message", (event) => {
     if (event.data === "refresh") {
@@ -85,7 +85,7 @@ async function api(url, method = "GET", body = null) {
 // ── Theme ─────────────────────────────────────────────────────────────
 
 function initTheme() {
-    const saved = localStorage.getItem("jt-theme") || window.jtServerTheme || "auto";
+    const saved = localStorage.getItem("tt-theme") || window.ttServerTheme || "auto";
     applyTheme(saved);
 }
 
@@ -95,25 +95,25 @@ function applyTheme(theme) {
         effective = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
     document.documentElement.setAttribute("data-bs-theme", effective);
-    localStorage.setItem("jt-theme", theme);
+    localStorage.setItem("tt-theme", theme);
     updateThemeIcon();
 }
 
 function updateThemeIcon() {
     const btn = document.getElementById("theme-toggle");
     if (!btn) return;
-    const theme = localStorage.getItem("jt-theme") || "auto";
+    const theme = localStorage.getItem("tt-theme") || "auto";
     const icons = { dark: "bi-moon-stars-fill", light: "bi-sun-fill", auto: "bi-circle-half" };
     btn.innerHTML = `<i class="bi ${icons[theme] || icons.auto}"></i>`;
 }
 
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-    if ((localStorage.getItem("jt-theme") || "auto") === "auto") applyTheme("auto");
+    if ((localStorage.getItem("tt-theme") || "auto") === "auto") applyTheme("auto");
 });
 
 document.addEventListener("click", (e) => {
     if (e.target.closest("#theme-toggle")) {
-        const current = localStorage.getItem("jt-theme") || "auto";
+        const current = localStorage.getItem("tt-theme") || "auto";
         const cycle = { light: "dark", dark: "auto", auto: "light" };
         applyTheme(cycle[current] || "light");
     }
@@ -246,7 +246,7 @@ async function showPhrase(category) {
 function changePeriod(period) {
     if (!VALID_PERIODS.includes(period)) return;
     currentPeriod = period;
-    localStorage.setItem("jt-period", period);
+    localStorage.setItem("tt-period", period);
     updatePeriodButtons();
     updateDateDisplay();
     refreshDashboard();

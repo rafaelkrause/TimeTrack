@@ -1,4 +1,4 @@
-# Job Tracker
+# TimeTrack
 
 Lightweight, local hour-tracking tool built for agency professionals. Runs as a web server at `localhost:5000`, no database, with monthly JSON file storage.
 
@@ -38,6 +38,6 @@ Lightweight, local hour-tracking tool built for agency professionals. Runs as a 
 
 ## Quick links
 
-- Source: [github.com/rafaelkrause/job_tracker](https://github.com/rafaelkrause/job_tracker)
-- Releases: [GitHub Releases](https://github.com/rafaelkrause/job_tracker/releases)
-- License: [MIT](https://github.com/rafaelkrause/job_tracker/blob/main/LICENSE)
+- Source: [github.com/rafaelkrause/TimeTrack](https://github.com/rafaelkrause/TimeTrack)
+- Releases: [GitHub Releases](https://github.com/rafaelkrause/TimeTrack/releases)
+- License: [MIT](https://github.com/rafaelkrause/TimeTrack/blob/main/LICENSE)

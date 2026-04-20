@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 from flask import Flask, request
@@ -12,24 +13,40 @@ def get_user_data_dir() -> Path:
     """Resolve the directory holding config.json and data/.
 
     Priority:
-      1. $JOBTRACKER_DATA_DIR (set by the Windows installer / service wrapper)
-      2. ./ (project root) — dev mode
+      1. $TIMETRACK_DATA_DIR (set by the service wrapper / explicit override)
+      2. Windows installed mode → %APPDATA%\\TimeTrack
+      3. ./ (project root) — dev mode (source checkout)
     """
-    override = os.environ.get("JOBTRACKER_DATA_DIR")
+    override = os.environ.get("TIMETRACK_DATA_DIR")
     if override:
         return Path(override).expanduser()
-    return Path(__file__).parent.parent
+
+    project_root = Path(__file__).parent.parent
+    if sys.platform == "win32" and not _is_source_checkout(project_root):
+        appdata = os.environ.get("APPDATA")
+        if appdata:
+            return Path(appdata) / "TimeTrack"
+
+    return project_root
+
+
+def _is_source_checkout(project_root: Path) -> bool:
+    """Heuristic: a source checkout has pyproject.toml or requirements.txt
+    at the repo root. The Windows installer layout does not."""
+    return (project_root / "pyproject.toml").exists() or (
+        project_root / "requirements.txt"
+    ).exists()
 
 
 def _select_locale() -> str:
     """Resolve the active locale for the current request.
 
     Precedence:
-      1. `jt-lang` cookie (set by the language toggle).
+      1. `tt-lang` cookie (set by the language toggle).
       2. Accept-Language header best match.
       3. DEFAULT_LOCALE.
     """
-    cookie = request.cookies.get("jt-lang")
+    cookie = request.cookies.get("tt-lang")
     if cookie and cookie in SUPPORTED_LOCALES:
         return cookie
     match = request.accept_languages.best_match(SUPPORTED_LOCALES)

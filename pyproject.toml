@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "job-tracker"
+name = "timetrack"
 version = "0.1.0"
 description = "Self-hosted hour-tracking tool with local web UI. Bilingual (EN/pt-BR)."
 readme = "README.md"
@@ -47,14 +47,14 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/rafaelkrause/job_tracker"
-Documentation = "https://rafaelkrause.github.io/job_tracker/docs/"
-Repository = "https://github.com/rafaelkrause/job_tracker"
-Issues = "https://github.com/rafaelkrause/job_tracker/issues"
-Changelog = "https://github.com/rafaelkrause/job_tracker/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/rafaelkrause/TimeTrack"
+Documentation = "https://rafaelkrause.github.io/TimeTrack/docs/"
+Repository = "https://github.com/rafaelkrause/TimeTrack"
+Issues = "https://github.com/rafaelkrause/TimeTrack/issues"
+Changelog = "https://github.com/rafaelkrause/TimeTrack/blob/main/CHANGELOG.md"
 
 [project.scripts]
-job-tracker = "app.__main__:main"
+timetrack = "app.__main__:main"
 
 [tool.hatch.build]
 # Compiled translation catalogs (`.mo`) are gitignored but must ship inside

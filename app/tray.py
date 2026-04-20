@@ -64,5 +64,5 @@ def start_tray(url: str, app):
         pystray.MenuItem("Sair", on_quit),
     )
 
-    icon = pystray.Icon("job-tracker", create_icon(), "Job Tracker", menu=menu)
+    icon = pystray.Icon("timetrack", create_icon(), "TimeTrack", menu=menu)
     icon.run()

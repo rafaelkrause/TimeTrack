@@ -1,6 +1,6 @@
 # Language policy
 
-Job Tracker is **bilingual by design**: UI and docs come in English and Brazilian Portuguese, with **pt-BR as the default**.
+TimeTrack is **bilingual by design**: UI and docs come in English and Brazilian Portuguese, with **pt-BR as the default**.
 
 ## Why bilingual?
 
@@ -12,7 +12,7 @@ Job Tracker is **bilingual by design**: UI and docs come in English and Brazilia
 
 Precedence:
 
-1. `jt-lang` cookie (set by the user via the dropdown or the `POST /api/lang` endpoint).
+1. `tt-lang` cookie (set by the user via the dropdown or the `POST /api/lang` endpoint).
 2. Browser `Accept-Language` header.
 3. Fallback: `pt_BR`.
 
@@ -58,7 +58,7 @@ Files under `docs-src/`:
 - `page.md` → default (pt-BR) version.
 - `page.en.md` → English version.
 
-The `mkdocs-static-i18n` plugin publishes the documentation at `https://rafaelkrause.github.io/job_tracker/docs/` (pt-BR) and `https://rafaelkrause.github.io/job_tracker/docs/en/` (EN). The root `https://rafaelkrause.github.io/job_tracker/` is the static landing page. Internal relative links work in both languages — the plugin handles path translation.
+The `mkdocs-static-i18n` plugin publishes the documentation at `https://rafaelkrause.github.io/TimeTrack/docs/` (pt-BR) and `https://rafaelkrause.github.io/TimeTrack/docs/en/` (EN). The root `https://rafaelkrause.github.io/TimeTrack/` is the static landing page. Internal relative links work in both languages — the plugin handles path translation.
 
 ## Status
 

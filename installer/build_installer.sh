@@ -3,7 +3,7 @@
 # build_installer.sh — build the Windows NSIS installer from Linux
 #
 # Downloads Python embeddable, get-pip, Windows wheels, NSSM, then runs
-# makensis to produce JobTracker-Setup-<version>.exe.
+# makensis to produce TimeTrack-Setup-<version>.exe.
 #
 # Requirements (Linux):
 #   - bash, curl, unzip
@@ -120,15 +120,14 @@ find "$BUILD_DIR/app" -type f -name "*.pyc" -delete 2>/dev/null || true
 # ------------------------------------------------------------------ resources
 log "Staging resources..."
 mkdir -p "$BUILD_DIR/resources"
-cp "$SCRIPT_DIR/resources/job-tracker-silent.vbs" "$BUILD_DIR/resources/"
 cp "$REPO_ROOT/LICENSE"                           "$BUILD_DIR/resources/LICENSE.txt"
 
 # Icon — generate a minimal .ico if none exists yet.
-if [[ -f "$SCRIPT_DIR/resources/job-tracker.ico" ]]; then
-  cp "$SCRIPT_DIR/resources/job-tracker.ico" "$BUILD_DIR/resources/"
+if [[ -f "$SCRIPT_DIR/resources/timetrack.ico" ]]; then
+  cp "$SCRIPT_DIR/resources/timetrack.ico" "$BUILD_DIR/resources/"
 else
   log "No icon found — generating a minimal placeholder..."
-  python3 - <<'PY' "$BUILD_DIR/resources/job-tracker.ico"
+  python3 - <<'PY' "$BUILD_DIR/resources/timetrack.ico"
 import struct, sys, zlib, os
 # Minimal 32x32 RGBA icon (a simple clock shape) encoded as BMP in ICO container.
 # This is a throwaway placeholder; replace with a real .ico later.
@@ -195,7 +194,7 @@ makensis -V2 \
   -DPY_EMBED_TAG="$PY_TAG" \
   installer.nsi
 
-OUT="$SCRIPT_DIR/JobTracker-Setup-${VERSION}.exe"
+OUT="$SCRIPT_DIR/TimeTrack-Setup-${VERSION}.exe"
 if [[ -f "$OUT" ]]; then
   log "Done: $OUT"
   ls -lh "$OUT"

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-# ── Job Tracker — Instalador Linux ─────────────────────────────────────
+# ── TimeTrack — Instalador Linux ───────────────────────────────────────
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 VENV_DIR="$SCRIPT_DIR/.venv"
-LAUNCHER="$SCRIPT_DIR/job-tracker.sh"
+LAUNCHER="$SCRIPT_DIR/timetrack.sh"
 DESKTOP_DIR="$HOME/.local/share/applications"
-DESKTOP_FILE="$DESKTOP_DIR/job-tracker.desktop"
+DESKTOP_FILE="$DESKTOP_DIR/timetrack.desktop"
 
 BOLD='\033[1m'
 GREEN='\033[0;32m'
@@ -22,7 +22,7 @@ fail()  { echo -e "${RED}✗ $1${NC}"; exit 1; }
 
 echo ""
 info "═══════════════════════════════════════"
-info "  Job Tracker — Instalação (Linux)"
+info "  TimeTrack — Instalação (Linux)"
 info "═══════════════════════════════════════"
 echo ""
 
@@ -114,7 +114,7 @@ mkdir -p "$DESKTOP_DIR"
 cat > "$DESKTOP_FILE" << DESKTOP_EOF
 [Desktop Entry]
 Version=1.0
-Name=Job Tracker
+Name=TimeTrack
 GenericName=Tracking de Horas
 Comment=Ferramenta de monitoramento de horas trabalhadas
 Exec=$LAUNCHER
@@ -138,7 +138,7 @@ echo ""
 echo "  Iniciar via terminal:"
 echo "    $LAUNCHER"
 echo ""
-echo "  Ou procure 'Job Tracker' no menu de aplicações."
+echo "  Ou procure 'TimeTrack' no menu de aplicações."
 echo ""
 echo "  Para desinstalar:"
 echo "    rm -rf $VENV_DIR"

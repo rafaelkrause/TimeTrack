@@ -73,8 +73,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: JobTracker-Setup-${{ steps.version.outputs.value }}
-          path: installer/JobTracker-Setup-${{ steps.version.outputs.value }}.exe
+          name: TimeTrack-Setup-${{ steps.version.outputs.value }}
+          path: installer/TimeTrack-Setup-${{ steps.version.outputs.value }}.exe
           if-no-files-found: error
 
       - name: Anexar ao release
@@ -82,4 +82,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.value }}
-          files: installer/JobTracker-Setup-${{ steps.version.outputs.value }}.exe
+          files: installer/TimeTrack-Setup-${{ steps.version.outputs.value }}.exe

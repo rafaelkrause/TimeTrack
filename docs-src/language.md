@@ -1,6 +1,6 @@
 # Política de idioma
 
-O Job Tracker é um projeto **bilíngue por design**: a UI e a documentação têm versões em inglês e português do Brasil, com **pt-BR como padrão**.
+O TimeTrack é um projeto **bilíngue por design**: a UI e a documentação têm versões em inglês e português do Brasil, com **pt-BR como padrão**.
 
 ## Por que bilíngue?
 
@@ -12,7 +12,7 @@ O Job Tracker é um projeto **bilíngue por design**: a UI e a documentação t�
 
 Ordem de precedência:
 
-1. Cookie `jt-lang` (definido pelo próprio usuário via dropdown ou pela API `POST /api/lang`).
+1. Cookie `tt-lang` (definido pelo próprio usuário via dropdown ou pela API `POST /api/lang`).
 2. Cabeçalho `Accept-Language` do navegador.
 3. Fallback: `pt_BR`.
 
@@ -58,7 +58,7 @@ Arquivos sob `docs-src/`:
 - `page.md` → versão padrão (pt-BR).
 - `page.en.md` → versão em inglês.
 
-O plugin `mkdocs-static-i18n` publica a documentação em `https://rafaelkrause.github.io/job_tracker/docs/` (pt-BR) e `https://rafaelkrause.github.io/job_tracker/docs/en/` (EN). A raiz `https://rafaelkrause.github.io/job_tracker/` é a landing page estática. Links internos relativos funcionam em ambos os idiomas — o plugin cuida da tradução do caminho.
+O plugin `mkdocs-static-i18n` publica a documentação em `https://rafaelkrause.github.io/TimeTrack/docs/` (pt-BR) e `https://rafaelkrause.github.io/TimeTrack/docs/en/` (EN). A raiz `https://rafaelkrause.github.io/TimeTrack/` é a landing page estática. Links internos relativos funcionam em ambos os idiomas — o plugin cuida da tradução do caminho.
 
 ## Status
 

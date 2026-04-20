@@ -4,7 +4,7 @@ Guia direto: escolha sua plataforma, instale, pronto. Para contribuidores que qu
 
 ## Windows — instalador `.exe` (recomendado)
 
-**[⬇ Baixe `JobTracker-Setup.exe`](https://github.com/rafaelkrause/job_tracker/releases/latest)**
+**[⬇ Baixe `TimeTrack-Setup.exe`](https://github.com/rafaelkrause/TimeTrack/releases/latest)**
 
 1. Execute o `.exe`. Se o SmartScreen bloquear, clique em **Mais informações → Executar assim mesmo** (instalador ainda sem assinatura digital).
 2. O assistente pergunta: atalho na área de trabalho, Menu Iniciar, e componente opcional de **serviço do Windows** (NSSM).
@@ -12,25 +12,25 @@ Guia direto: escolha sua plataforma, instale, pronto. Para contribuidores que qu
 
 Detalhes:
 
-- **Instalação por usuário** (sem UAC). Destino: `%LOCALAPPDATA%\Programs\JobTracker`.
+- **Instalação por usuário** (sem UAC). Destino: `%LOCALAPPDATA%\Programs\TimeTrack`.
 - **Python embutido** — nada é instalado no sistema.
-- **Dados**: `%APPDATA%\JobTracker` (preservados em atualizações).
+- **Dados**: `%APPDATA%\TimeTrack` (preservados em atualizações).
 
 ## Linux / macOS — instalador remoto (recomendado)
 
-**[⬇ Baixe `install-remote.sh`](https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh)** ou rode direto:
+**[⬇ Baixe `install-remote.sh`](https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh)** ou rode direto:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash
 ```
 
-O script cuida de tudo: baixa o wheel da última release, cria um virtualenv isolado, instala as dependências e drops um launcher `job-tracker` no `PATH`.
+O script cuida de tudo: baixa o wheel da última release, cria um virtualenv isolado, instala as dependências e drops um launcher `timetrack` no `PATH`.
 
 Depois:
 
 ```bash
-job-tracker              # abre o navegador em http://localhost:5000
-job-tracker --no-browser # só inicia o servidor
+timetrack              # abre o navegador em http://localhost:5000
+timetrack --no-browser # só inicia o servidor
 ```
 
 ### Pré-requisito: Python 3.10+
@@ -54,10 +54,10 @@ Ou use o instalador oficial em [python.org/downloads](https://www.python.org/dow
 
 | Caminho | Conteúdo |
 |---|---|
-| `~/.local/share/job-tracker/.venv/` | Ambiente Python isolado |
-| `~/.local/share/job-tracker/user/` | `config.json` + `data/YYYY-MM.json` (seus dados) |
-| `~/.local/bin/job-tracker` | Launcher no `PATH` |
-| `~/.local/share/applications/job-tracker.desktop` | Entrada no menu de aplicações (Linux) |
+| `~/.local/share/timetrack/.venv/` | Ambiente Python isolado |
+| `~/.local/share/timetrack/user/` | `config.json` + `data/YYYY-MM.json` (seus dados) |
+| `~/.local/bin/timetrack` | Launcher no `PATH` |
+| `~/.local/share/applications/timetrack.desktop` | Entrada no menu de aplicações (Linux) |
 
 Se `~/.local/bin` não estiver no `PATH`, o script avisa e sugere a linha a adicionar no `~/.bashrc` ou `~/.zshrc`.
 
@@ -65,11 +65,11 @@ Se `~/.local/bin` não estiver no `PATH`, o script avisa e sugere a linha a adic
 
 A flag `--service` registra o serviço no padrão nativo do SO:
 
-- **Linux:** unidade `systemd --user` em `~/.config/systemd/user/job-tracker.service`, habilitada automaticamente. Sobe no login.
-- **macOS:** `LaunchAgent` em `~/Library/LaunchAgents/com.rafaelkrause.jobtracker.plist`, carregado via `launchctl`. Sobe no login.
+- **Linux:** unidade `systemd --user` em `~/.config/systemd/user/timetrack.service`, habilitada automaticamente. Sobe no login.
+- **macOS:** `LaunchAgent` em `~/Library/LaunchAgents/com.rafaelkrause.timetrack.plist`, carregado via `launchctl`. Sobe no login.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash -s -- --service
+curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash -s -- --service
 ```
 
 Para ativar o serviço depois de uma instalação sem `--service`, basta executar o comando acima novamente — o script detecta a instalação existente e só adiciona o serviço.
@@ -78,20 +78,20 @@ Para ativar o serviço depois de uma instalação sem `--service`, basta executa
 
 ```bash
 # Versão específica (default: última release)
-JT_VERSION=0.1.0 curl -fsSL .../install-remote.sh | bash
+TT_VERSION=0.1.0 curl -fsSL .../install-remote.sh | bash
 
 # Local de instalação customizado
-JT_PREFIX=/opt/job-tracker curl -fsSL .../install-remote.sh | bash
+TT_PREFIX=/opt/timetrack curl -fsSL .../install-remote.sh | bash
 ```
 
 ### Desinstalar
 
 ```bash
-# Preserva os dados em ~/.local/share/job-tracker/user/
-curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash -s -- --uninstall
+# Preserva os dados em ~/.local/share/timetrack/user/
+curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash -s -- --uninstall
 
 # Remove também os dados (irreversível)
-curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash -s -- --uninstall --purge-data
+curl -fsSL https://raw.githubusercontent.com/rafaelkrause/TimeTrack/main/install-remote.sh | bash -s -- --uninstall --purge-data
 ```
 
 O desinstalador para e remove o serviço (se existir), apaga launcher, entrada do menu e virtualenv.
@@ -107,10 +107,10 @@ Por isso o v0.1.0 usa o caminho `curl | bash` — mesma experiência que Homebre
 Para desenvolver, modificar ou rodar antes de ter uma release publicada:
 
 ```bash
-git clone https://github.com/rafaelkrause/job_tracker.git
-cd job_tracker
+git clone https://github.com/rafaelkrause/TimeTrack.git
+cd TimeTrack
 ./install.sh            # cria .venv e instala dependências (flask, flask-babel, pystray, Pillow)
-./job-tracker.sh        # inicia
+./timetrack.sh        # inicia
 ```
 
 Alternativa manual:
@@ -142,15 +142,15 @@ Só necessário para customizar o instalador. Roda em host Linux:
 ```bash
 sudo apt install nsis
 ./installer/build_installer.sh 1.0.0
-# saída: installer/JobTracker-Setup-1.0.0.exe
+# saída: installer/TimeTrack-Setup-1.0.0.exe
 ```
 
 O workflow `.github/workflows/build-installer.yml` faz isso automaticamente quando uma tag `v*` é publicada.
 
 ## Atualizar
 
-- **Windows**: execute o novo `JobTracker-Setup-X.Y.Z.exe`. Dados e configuração em `%APPDATA%\JobTracker` são preservados.
-- **Linux / macOS (instalador remoto)**: reexecute o `install-remote.sh` — ele detecta o virtualenv existente, baixa a versão nova, reinstala o wheel e preserva seus dados em `~/.local/share/job-tracker/user/`.
+- **Windows**: execute o novo `TimeTrack-Setup-X.Y.Z.exe`. Dados e configuração em `%APPDATA%\TimeTrack` são preservados.
+- **Linux / macOS (instalador remoto)**: reexecute o `install-remote.sh` — ele detecta o virtualenv existente, baixa a versão nova, reinstala o wheel e preserva seus dados em `~/.local/share/timetrack/user/`.
 - **Código-fonte**: `git pull && source .venv/bin/activate && pip install -r requirements.txt --upgrade`.
 
 ## Pré-requisitos (resumo)

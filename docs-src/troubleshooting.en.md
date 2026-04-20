@@ -33,7 +33,7 @@ brew install python@3.11
 Make it executable:
 
 ```bash
-chmod +x install.sh job-tracker.sh
+chmod +x install.sh timetrack.sh
 ```
 
 ### SmartScreen blocks the Windows installer
@@ -109,8 +109,8 @@ No problem — it's regenerated with defaults on next startup. Your historical d
 ### systemd service does not start
 
 ```bash
-systemctl --user status job-tracker.service
-journalctl --user -u job-tracker.service -n 50
+systemctl --user status timetrack.service
+journalctl --user -u timetrack.service -n 50
 ```
 
 Common causes:
@@ -121,11 +121,11 @@ Common causes:
 
 ### Windows service does not start
 
-In Services Manager (`services.msc`), check the "Job Tracker" status. If using NSSM:
+In Services Manager (`services.msc`), check the "TimeTrack" status. If using NSSM:
 
 ```powershell
-nssm status JobTracker
-nssm edit JobTracker
+nssm status TimeTrack
+nssm edit TimeTrack
 ```
 
 and fix the executable path.
@@ -146,5 +146,5 @@ Make sure the correct cell range is selected before pasting. If needed, open the
 
 ## Still stuck?
 
-- Open an issue: [github.com/rafaelkrause/job_tracker/issues](https://github.com/rafaelkrause/job_tracker/issues)
+- Open an issue: [github.com/rafaelkrause/TimeTrack/issues](https://github.com/rafaelkrause/TimeTrack/issues)
 - Include: OS, Python version, server log snippet, and reproduction steps.

@@ -1,7 +1,7 @@
 """Shared pytest fixtures.
 
 Key invariant: tests must never write to the real user data directory.
-`JOBTRACKER_DATA_DIR` is honored by `app.get_user_data_dir`, so we point it
+`TIMETRACK_DATA_DIR` is honored by `app.get_user_data_dir`, so we point it
 at a tmp dir for every test that touches storage or config.
 """
 
@@ -18,10 +18,10 @@ from flask import Flask
 
 @pytest.fixture
 def isolated_data_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    """Point JOBTRACKER_DATA_DIR at a tmp dir so tests are hermetic."""
-    data_dir = tmp_path / "jobtracker"
+    """Point TIMETRACK_DATA_DIR at a tmp dir so tests are hermetic."""
+    data_dir = tmp_path / "timetrack"
     data_dir.mkdir()
-    monkeypatch.setenv("JOBTRACKER_DATA_DIR", str(data_dir))
+    monkeypatch.setenv("TIMETRACK_DATA_DIR", str(data_dir))
     return data_dir
 
 
