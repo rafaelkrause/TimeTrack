@@ -3,6 +3,34 @@
 let currentDate = new Date();
 let timerInterval = null;
 
+// ── Dialog / Dropdown helpers (global) ────────────────────────────────
+
+function openDialog(id) {
+    const el = document.getElementById(id);
+    if (el && typeof el.showModal === "function") el.showModal();
+}
+
+function closeDialog(id) {
+    const el = document.getElementById(id);
+    if (el && typeof el.close === "function") el.close();
+}
+
+function toggleDropdown(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isOpen = el.classList.toggle("is-open");
+    if (isOpen) {
+        setTimeout(() => {
+            document.addEventListener("click", function handler(e) {
+                if (!el.contains(e.target)) {
+                    el.classList.remove("is-open");
+                    document.removeEventListener("click", handler);
+                }
+            });
+        }, 0);
+    }
+}
+
 // ── Cross-tab sync via BroadcastChannel ───────────────────────────────
 
 const syncChannel = new BroadcastChannel("job-tracker-sync");
@@ -88,17 +116,8 @@ function applyTheme(theme) {
     if (theme === "auto") {
         effective = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
-    document.documentElement.setAttribute("data-bs-theme", effective);
+    document.documentElement.classList.toggle("dark", effective === "dark");
     localStorage.setItem("jt-theme", theme);
-    updateThemeIcon();
-}
-
-function updateThemeIcon() {
-    const btn = document.getElementById("theme-toggle");
-    if (!btn) return;
-    const theme = localStorage.getItem("jt-theme") || "auto";
-    const icons = { dark: "bi-moon-stars-fill", light: "bi-sun-fill", auto: "bi-circle-half" };
-    btn.innerHTML = `<i class="bi ${icons[theme] || icons.auto}"></i>`;
 }
 
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
@@ -119,6 +138,8 @@ document.addEventListener("click", async (e) => {
     const el = e.target.closest(".lang-switch");
     if (!el) return;
     e.preventDefault();
+    const dropdown = el.closest(".dropdown");
+    if (dropdown) dropdown.classList.remove("is-open");
     const lang = el.dataset.lang;
     try {
         await fetch("/api/lang", {
@@ -138,8 +159,7 @@ async function refreshCurrentActivity() {
     if (!container) return;
 
     if (data.activity) {
-        container.classList.remove("d-none");
-        container.className = container.className.replace(/border-\w+/g, "");
+        container.classList.remove("hidden");
         document.getElementById("current-description").textContent = data.activity.description;
 
         const badge = document.getElementById("status-badge");
@@ -148,21 +168,19 @@ async function refreshCurrentActivity() {
 
         if (data.activity.status === "paused") {
             badge.textContent = window.i18n.paused;
-            badge.className = "badge bg-warning text-dark";
-            btnPause.classList.add("d-none");
-            btnResume.classList.remove("d-none");
-            container.classList.add("border-warning");
+            badge.className = "badge badge--warning";
+            btnPause.classList.add("hidden");
+            btnResume.classList.remove("hidden");
         } else {
             badge.textContent = window.i18n.active;
-            badge.className = "badge bg-success";
-            btnPause.classList.remove("d-none");
-            btnResume.classList.add("d-none");
-            container.classList.add("border-success");
+            badge.className = "badge badge--success";
+            btnPause.classList.remove("hidden");
+            btnResume.classList.add("hidden");
         }
 
         startTimer(data.effective_seconds, data.activity.status);
     } else {
-        container.classList.add("d-none");
+        container.classList.add("hidden");
         stopTimer();
     }
 }
@@ -289,9 +307,9 @@ async function refreshDashboard() {
         const pct = Math.min(100, data.percentage);
         bar.style.width = `${pct}%`;
         const t = data.target_percentage;
-        bar.className = "progress-bar " + (
-            data.percentage >= t ? "bg-success" :
-            data.percentage >= t * 0.7 ? "bg-warning" : "bg-danger"
+        bar.className = "progress__bar " + (
+            data.percentage >= t ? "progress__bar--success" :
+            data.percentage >= t * 0.7 ? "progress__bar--warning" : "progress__bar--destructive"
         );
     }
 
@@ -317,7 +335,7 @@ function renderTimeline(data) {
     if (labelsEl) labelsEl.innerHTML = "";
 
     if (data.shifts.length === 0) {
-        container.innerHTML = `<div class="text-body-secondary text-center small py-3">${escapeHtml(window.i18n.no_shift)}</div>`;
+        container.innerHTML = `<div class="text-muted text-center py-3" style="font-size:0.875rem">${escapeHtml(window.i18n.no_shift)}</div>`;
         container.style.height = "auto";
         return;
     }
@@ -406,14 +424,14 @@ function renderActivityTable(activities) {
     if (!tbody) return;
 
     if (activities.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-body-secondary py-3">${escapeHtml(window.i18n.no_activities)}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-3">${escapeHtml(window.i18n.no_activities)}</td></tr>`;
         return;
     }
 
     const statusMap = {
-        completed: { label: window.i18n.completed, cls: "bg-secondary" },
-        paused:    { label: window.i18n.paused,    cls: "bg-warning text-dark" },
-        active:    { label: window.i18n.active,    cls: "bg-success" },
+        completed: { label: window.i18n.completed, cls: "badge--secondary" },
+        paused:    { label: window.i18n.paused,    cls: "badge--warning" },
+        active:    { label: window.i18n.active,    cls: "badge--success" },
     };
 
     tbody.innerHTML = activities.map(a => {
@@ -425,11 +443,11 @@ function renderActivityTable(activities) {
             <td class="font-monospace">${a.effective_duration}</td>
             <td><span class="badge ${st.cls}">${st.label}</span></td>
             <td>
-                <button class="btn btn-link btn-sm p-0 text-body-secondary btn-edit"
+                <button class="btn btn--ghost btn--sm btn--icon btn-edit"
                     data-id="${a.id}" data-status="${a.status}"
                     data-started="${a.started_at}" data-ended="${a.ended_at || ""}"
                     title="${escapeHtml(window.i18n.edit || 'Edit')}">
-                    <i class="bi bi-pencil"></i>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                 </button>
             </td>
         </tr>`;
@@ -448,18 +466,7 @@ function renderActivityTable(activities) {
 
 // ── Edit / Delete Activity ────────────────────────────────────────────
 
-let editModalInstance = null;
-let confirmSaveInstance = null;
-let confirmDeleteInstance = null;
-
-function getEditModals() {
-    if (!editModalInstance) editModalInstance = new bootstrap.Modal(document.getElementById("editModal"));
-    if (!confirmSaveInstance) confirmSaveInstance = new bootstrap.Modal(document.getElementById("confirmSaveModal"));
-    if (!confirmDeleteInstance) confirmDeleteInstance = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
-}
-
 function openEditModal(id, description, startedAt, endedAt, status) {
-    getEditModals();
     document.getElementById("edit-id").value = id;
     document.getElementById("edit-status").value = status;
     document.getElementById("edit-description").value = description;
@@ -471,32 +478,32 @@ function openEditModal(id, description, startedAt, endedAt, status) {
     const endGroup = document.getElementById("edit-end-group");
     const endInput = document.getElementById("edit-end");
     if (endedAt) {
-        endGroup.classList.remove("d-none");
+        endGroup.classList.remove("hidden");
         const endDate = new Date(endedAt);
         endInput.value =
             String(endDate.getHours()).padStart(2, "0") + ":" + String(endDate.getMinutes()).padStart(2, "0");
     } else {
-        endGroup.classList.add("d-none");
+        endGroup.classList.add("hidden");
         endInput.value = "";
     }
 
-    editModalInstance.show();
+    openDialog("editModal");
 }
 
 function showSaveConfirm() {
-    editModalInstance.hide();
-    confirmSaveInstance.show();
+    closeDialog("editModal");
+    openDialog("confirmSaveModal");
 }
 
 function showDeleteConfirm() {
-    editModalInstance.hide();
-    confirmDeleteInstance.show();
+    closeDialog("editModal");
+    openDialog("confirmDeleteModal");
 }
 
 function backToEdit() {
-    confirmSaveInstance.hide();
-    confirmDeleteInstance.hide();
-    editModalInstance.show();
+    closeDialog("confirmSaveModal");
+    closeDialog("confirmDeleteModal");
+    openDialog("editModal");
 }
 
 async function saveEdit() {
@@ -509,7 +516,7 @@ async function saveEdit() {
     if (endVal) body.end_time = endVal;
 
     await api(`/api/activity/${id}`, "PUT", body);
-    confirmSaveInstance.hide();
+    closeDialog("confirmSaveModal");
     refreshCurrentActivity();
     refreshDashboard();
     notifyOtherTabs();
@@ -519,7 +526,7 @@ async function saveEdit() {
 async function deleteActivity() {
     const id = document.getElementById("edit-id").value;
     await api(`/api/activity/${id}`, "DELETE");
-    confirmDeleteInstance.hide();
+    closeDialog("confirmDeleteModal");
     refreshCurrentActivity();
     refreshDashboard();
     notifyOtherTabs();
@@ -555,18 +562,19 @@ async function loadShifts() {
 
     container.innerHTML = "";
     const names = dayNames();
+    const plusSvg = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
     for (const day of DAY_ORDER) {
         const shifts = data[day] || [];
         const dayDiv = document.createElement("div");
         dayDiv.className = "mb-3";
         dayDiv.innerHTML = `
-            <div class="d-flex align-items-center gap-2 mb-1">
+            <div class="flex items-center gap-2 mb-2">
                 <strong style="width:75px;font-size:0.85rem">${escapeHtml(names[day])}</strong>
-                <button class="btn btn-outline-primary btn-sm py-0 px-1" style="font-size:0.75rem" onclick="addShift('${day}')">
-                    <i class="bi bi-plus"></i>
+                <button class="btn btn--outline btn--sm btn--icon" onclick="addShift('${day}')">
+                    ${plusSvg}
                 </button>
             </div>
-            <div id="shifts-${day}" class="d-flex flex-wrap gap-2">
+            <div id="shifts-${day}" class="flex flex-wrap gap-2">
                 ${shifts.map((s, i) => shiftInputHtml(day, i, s.start, s.end)).join("")}
             </div>
         `;
@@ -575,11 +583,12 @@ async function loadShifts() {
 }
 
 function shiftInputHtml(day, index, start, end) {
-    return `<div class="input-group input-group-sm" style="width:auto">
-        <input type="time" class="form-control form-control-sm" value="${start}" data-day="${day}" data-index="${index}" data-field="start">
-        <span class="input-group-text py-0">\u2013</span>
-        <input type="time" class="form-control form-control-sm" value="${end}" data-day="${day}" data-index="${index}" data-field="end">
-        <button class="btn btn-outline-danger btn-sm py-0" onclick="this.parentElement.remove()"><i class="bi bi-x"></i></button>
+    const xSvg = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`;
+    return `<div class="shift-row flex items-center gap-1">
+        <input type="time" class="input" style="width:auto" value="${start}" data-day="${day}" data-index="${index}" data-field="start">
+        <span class="text-muted">\u2013</span>
+        <input type="time" class="input" style="width:auto" value="${end}" data-day="${day}" data-index="${index}" data-field="end">
+        <button class="btn btn--ghost btn--sm btn--icon" onclick="this.parentElement.remove()">${xSvg}</button>
     </div>`;
 }
 
@@ -595,7 +604,7 @@ async function saveShifts() {
         shifts[day] = [];
         const container = document.getElementById(`shifts-${day}`);
         if (!container) continue;
-        for (const group of container.querySelectorAll(".input-group")) {
+        for (const group of container.querySelectorAll(".shift-row")) {
             const inputs = group.querySelectorAll('input[type="time"]');
             if (inputs.length === 2 && inputs[0].value && inputs[1].value) {
                 shifts[day].push({ start: inputs[0].value, end: inputs[1].value });
@@ -633,34 +642,39 @@ function exportFromSettings() {
 
 // ── Toast ─────────────────────────────────────────────────────────────
 
-function showToast(message, type = "success", duration = 2500) {
+function showToast(message, type = "success", duration = 3500) {
     let toastContainer = document.getElementById("toast-container");
     if (!toastContainer) {
         toastContainer = document.createElement("div");
         toastContainer.id = "toast-container";
-        toastContainer.className = "position-fixed bottom-0 end-0 p-3";
-        toastContainer.style.zIndex = "1090";
+        toastContainer.className = "toast-container";
         document.body.appendChild(toastContainer);
     }
-    const id = "toast-" + Date.now();
-    toastContainer.insertAdjacentHTML("beforeend", `
-        <div id="${id}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">${escapeHtml(message)}</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    `);
-    const el = document.getElementById(id);
-    const toast = new bootstrap.Toast(el, { delay: duration });
-    toast.show();
-    el.addEventListener("hidden.bs.toast", () => el.remove());
+    const variants = { success: "toast--success", error: "toast--error", warning: "toast--error", info: "toast--info" };
+    const variant = variants[type] || variants.success;
+    const el = document.createElement("div");
+    el.className = `toast ${variant}`;
+    el.setAttribute("role", "alert");
+    el.textContent = message;
+    toastContainer.appendChild(el);
+    setTimeout(() => {
+        el.style.transition = "opacity 0.2s";
+        el.style.opacity = "0";
+        setTimeout(() => el.remove(), 200);
+    }, duration);
 }
 
 // ── Init ──────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", () => {
     initTheme();
+
+    // Close <dialog> when clicking on backdrop
+    document.querySelectorAll("dialog.dialog").forEach(d => {
+        d.addEventListener("click", (e) => {
+            if (e.target === d) d.close();
+        });
+    });
 
     // Dashboard page
     if (document.getElementById("current-activity")) {
