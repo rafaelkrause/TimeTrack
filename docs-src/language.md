@@ -58,7 +58,7 @@ Arquivos sob `docs-src/`:
 - `page.md` → versão padrão (pt-BR).
 - `page.en.md` → versão em inglês.
 
-O plugin `mkdocs-static-i18n` publica `https://rafaelkrause.github.io/job_tracker/` (pt-BR) e `https://rafaelkrause.github.io/job_tracker/en/` (EN). Links internos relativos funcionam em ambos os idiomas — o plugin cuida da tradução do caminho.
+O plugin `mkdocs-static-i18n` publica a documentação em `https://rafaelkrause.github.io/job_tracker/docs/` (pt-BR) e `https://rafaelkrause.github.io/job_tracker/docs/en/` (EN). A raiz `https://rafaelkrause.github.io/job_tracker/` é a landing page estática. Links internos relativos funcionam em ambos os idiomas — o plugin cuida da tradução do caminho.
 
 ## Status
 

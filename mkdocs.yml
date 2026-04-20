@@ -1,12 +1,13 @@
 site_name: Job Tracker
 site_description: Self-hosted hour-tracking tool with local web UI
-site_url: https://rafaelkrause.github.io/job_tracker/
+site_url: https://rafaelkrause.github.io/job_tracker/docs/
 repo_url: https://github.com/rafaelkrause/job_tracker
 repo_name: rafaelkrause/job_tracker
 edit_uri: edit/main/docs-src/
 copyright: Copyright © 2026 Rafael Krause — MIT License
 
 docs_dir: docs-src
+site_dir: site/docs
 
 theme:
   name: material
@@ -94,6 +95,7 @@ nav:
   - Créditos: credits.md
 
 extra:
+  homepage: https://rafaelkrause.github.io/job_tracker/
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/rafaelkrause/job_tracker

@@ -1,0 +1,266 @@
+/* =============================================================================
+   Job Tracker — landing page styles
+   Polish on top of Bootstrap 5.3. Reuses Bootstrap CSS variables to stay in
+   sync with light/dark theme and the main application look.
+   ============================================================================= */
+
+:root {
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code, pre { font-family: var(--font-mono); }
+
+section { scroll-margin-top: 72px; }
+
+/* === Navbar === */
+.navbar {
+    backdrop-filter: saturate(180%) blur(10px);
+    background-color: rgba(var(--bs-body-bg-rgb), 0.82) !important;
+}
+.nav-link { font-weight: 500; }
+
+/* === Hero === */
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: 2rem;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 18% 22%, rgba(79, 70, 229, 0.14), transparent 45%),
+        radial-gradient(circle at 82% 38%, rgba(13, 110, 253, 0.10), transparent 45%),
+        radial-gradient(circle at 55% 95%, rgba(236, 72, 153, 0.08), transparent 45%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+[data-bs-theme="dark"] .hero-bg {
+    background:
+        radial-gradient(circle at 18% 22%, rgba(139, 92, 246, 0.22), transparent 45%),
+        radial-gradient(circle at 82% 38%, rgba(59, 130, 246, 0.18), transparent 45%),
+        radial-gradient(circle at 55% 95%, rgba(236, 72, 153, 0.14), transparent 45%);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #4f46e5 0%, #9333ea 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* === Window mockup === */
+.window-mockup {
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--bs-border-color);
+    background: var(--bs-body-bg);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.25);
+}
+
+.window-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--bs-tertiary-bg);
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.window-chrome .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.window-chrome .dot-red    { background: #ff5f57; }
+.window-chrome .dot-yellow { background: #febc2e; }
+.window-chrome .dot-green  { background: #28c840; }
+
+.window-chrome .window-url {
+    margin-left: auto;
+    padding: 0.15rem 0.75rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 99px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--bs-secondary-color);
+}
+
+.window-body {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    background: var(--bs-tertiary-bg);
+}
+
+/* Fallback tile when a screenshot is missing (onerror hook in HTML) */
+.window-body.placeholder,
+.screenshot-card img.placeholder {
+    min-height: 280px;
+    background:
+        linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(236, 72, 153, 0.08)),
+        repeating-linear-gradient(45deg,
+            transparent 0, transparent 12px,
+            rgba(127, 127, 127, 0.08) 12px, rgba(127, 127, 127, 0.08) 13px);
+    /* Hide the broken image icon */
+    color: transparent;
+    font-size: 0;
+}
+
+/* === Features === */
+.feature-card {
+    padding: 1.75rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 14px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    border-color: var(--bs-primary-border-subtle);
+}
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: rgba(13, 110, 253, 0.10);
+    color: var(--bs-primary);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+.feature-icon-success { background: rgba(25, 135, 84, 0.12); color: var(--bs-success); }
+.feature-icon-warning { background: rgba(255, 193, 7, 0.16); color: #c79100; }
+.feature-icon-danger  { background: rgba(220, 53, 69, 0.12); color: var(--bs-danger); }
+
+[data-bs-theme="dark"] .feature-icon-warning { color: #ffd54f; }
+
+/* === Screenshots === */
+.screenshot-card {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--bs-border-color);
+    background: var(--bs-body-bg);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.screenshot-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+.screenshot-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+}
+.screenshot-card figcaption {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    color: var(--bs-secondary-color);
+    background: var(--bs-tertiary-bg);
+    border-top: 1px solid var(--bs-border-color);
+}
+
+/* === Install tabs === */
+.install-tabs {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.install-card {
+    padding: 2rem;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 14px;
+}
+
+.install-steps {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+.install-steps li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+.install-steps li:last-child { margin-bottom: 0; }
+
+/* === Code block with copy button === */
+.code-block {
+    position: relative;
+    background: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 10px;
+    padding: 1rem 3rem 1rem 1rem;
+    overflow-x: auto;
+}
+[data-bs-theme="dark"] .code-block {
+    background: #0d1117;
+    border-color: #30363d;
+}
+.code-block pre {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--bs-body-color);
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.btn-copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 6px;
+    color: var(--bs-secondary-color);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.btn-copy:hover { color: var(--bs-primary); border-color: var(--bs-primary); }
+.btn-copy.copied { color: var(--bs-success); border-color: var(--bs-success); }
+.btn-copy:focus-visible { outline: 2px solid var(--bs-primary); outline-offset: 2px; }
+
+/* === Tab pills === */
+.nav-pills .nav-link {
+    color: var(--bs-body-color);
+    background: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color);
+}
+.nav-pills .nav-link.active {
+    color: #fff;
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+/* === Responsive tweaks === */
+@media (max-width: 576px) {
+    h1.display-4 { font-size: 2.25rem; }
+    .feature-card, .install-card { padding: 1.25rem; }
+}

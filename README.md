@@ -10,7 +10,7 @@
 
 A lightweight, self-hosted hour-tracking tool that runs as a background process and serves a local web UI at `http://localhost:5000`. Built for single-user, low-footprint use on Linux, macOS and Windows.
 
-📘 **Documentation / Documentação:** [rafaelkrause.github.io/job_tracker](https://rafaelkrause.github.io/job_tracker/) (pt-BR + English)
+🌐 **Website:** [rafaelkrause.github.io/job_tracker](https://rafaelkrause.github.io/job_tracker/) &nbsp;·&nbsp; 📘 **Docs:** [rafaelkrause.github.io/job_tracker/docs](https://rafaelkrause.github.io/job_tracker/docs/) (pt-BR + English)
 
 ## Download & install
 
@@ -32,7 +32,7 @@ One-liner that downloads the latest release, installs it into `~/.local/share/jo
 
 Requires Python 3.10+ (`python3 --version`). On Ubuntu/Debian: `sudo apt install python3 python3-venv`. On macOS: `brew install python@3.11` (or [python.org](https://www.python.org/downloads/)).
 
-Uninstall: `bash -s -- --uninstall` (keeps data) or `--uninstall --purge-data` (wipes it). Full details in the [installation guide](https://rafaelkrause.github.io/job_tracker/installation/).
+Uninstall: `bash -s -- --uninstall` (keeps data) or `--uninstall --purge-data` (wipes it). Full details in the [installation guide](https://rafaelkrause.github.io/job_tracker/docs/installation/).
 
 ## Screenshots
 

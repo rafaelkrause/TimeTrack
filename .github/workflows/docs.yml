@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "docs-src/**"
+      - "landing/**"
       - "mkdocs.yml"
       - ".github/workflows/docs.yml"
   workflow_dispatch:
@@ -36,8 +37,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install mkdocs-material mkdocs-static-i18n
 
-      - name: Build site
+      - name: Build MkDocs site
         run: mkdocs build --strict
+
+      - name: Compose landing page + docs
+        run: |
+          # mkdocs builds into site/docs/ (configured in mkdocs.yml).
+          # Landing page owns the root of the published site.
+          cp -r landing/. site/
+          ls -la site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

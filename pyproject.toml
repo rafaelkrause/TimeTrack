@@ -48,7 +48,7 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/rafaelkrause/job_tracker"
-Documentation = "https://rafaelkrause.github.io/job_tracker/"
+Documentation = "https://rafaelkrause.github.io/job_tracker/docs/"
 Repository = "https://github.com/rafaelkrause/job_tracker"
 Issues = "https://github.com/rafaelkrause/job_tracker/issues"
 Changelog = "https://github.com/rafaelkrause/job_tracker/blob/main/CHANGELOG.md"

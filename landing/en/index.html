@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Tracker — Local, no-cloud hour tracking</title>
+    <meta name="description" content="Lightweight hour-tracking tool with a local web UI. No database, no cloud, no login. Windows, Linux, macOS.">
+
+    <link rel="alternate" hreflang="pt-BR" href="../">
+    <link rel="alternate" hreflang="en" href="./">
+    <link rel="alternate" hreflang="x-default" href="../">
+
+    <meta property="og:title" content="Job Tracker">
+    <meta property="og:description" content="Simple, local hour tracking. Windows, Linux, macOS.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rafaelkrause.github.io/job_tracker/en/">
+    <meta property="og:image" content="../assets/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+    <script>
+      (function () {
+        var pref = localStorage.getItem("jt-theme") || "auto";
+        var effective = pref === "auto"
+          ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+          : pref;
+        document.documentElement.setAttribute("data-bs-theme", effective);
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="./">
+                <i class="bi bi-clock-history text-primary"></i>
+                <span>Job Tracker</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-label="Menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMain">
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0 align-items-md-center gap-md-1">
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#install">Install</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../docs/en/">Documentation</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/rafaelkrause/job_tracker" target="_blank" rel="noopener">
+                            <i class="bi bi-github"></i> GitHub
+                        </a>
+                    </li>
+                    <li class="nav-item ms-md-2">
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-label="Language">
+                                <i class="bi bi-translate"></i> EN
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="../">Português (BR)</a></li>
+                                <li><a class="dropdown-item active" href="./">English</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-sm btn-outline-secondary" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+                            <i class="bi bi-circle-half"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="container py-5">
+            <div class="row align-items-center gy-5 py-md-4">
+                <div class="col-lg-6">
+                    <span class="badge rounded-pill text-bg-light border mb-3 py-2 px-3">
+                        <i class="bi bi-shield-check text-primary me-1"></i>
+                        100% local · no cloud · no telemetry
+                    </span>
+                    <h1 class="display-4 fw-bold mb-3 lh-1">
+                        Track your hours.<br>
+                        <span class="text-gradient">No friction.</span>
+                    </h1>
+                    <p class="lead text-body-secondary mb-4">
+                        Lightweight hour-tracking tool for people who juggle many tasks every day. Runs at <code>localhost:5000</code> and stores everything in monthly JSON files — no database, no login, no signup.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="https://github.com/rafaelkrause/job_tracker/releases/latest" class="btn btn-primary btn-lg">
+                            <i class="bi bi-windows me-1"></i>
+                            Download for Windows
+                        </a>
+                        <a href="#install" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-terminal me-1"></i>
+                            Linux / macOS
+                        </a>
+                    </div>
+                    <p class="small text-body-secondary mt-3 mb-0">
+                        Free and open source · MIT license · Python 3.10+
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <figure class="window-mockup">
+                        <div class="window-chrome">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                            <span class="window-url">localhost:5000</span>
+                        </div>
+                        <img src="../docs/en/assets/screenshots/dashboard.png"
+                             alt="Job Tracker dashboard showing a running activity, timeline and shift progress"
+                             width="1280" height="800"
+                             class="window-body"
+                             loading="eager"
+                             onerror="this.classList.add('placeholder')">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Everything you need.<br class="d-sm-none"> Nothing you don't.</h2>
+                <p class="lead text-body-secondary">Built for people who switch contexts all day long.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <div class="feature-icon"><i class="bi bi-play-circle"></i></div>
+                        <h3 class="h5 fw-semibold">Simple flow</h3>
+                        <p class="text-body-secondary mb-0">Start, pause, resume, stop. System tray controls everything without opening the browser.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <div class="feature-icon feature-icon-success"><i class="bi bi-graph-up"></i></div>
+                        <h3 class="h5 fw-semibold">Dashboard with targets</h3>
+                        <p class="text-body-secondary mb-0">Shift %, day timeline, week and month views. Real progress — not what you planned.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <div class="feature-icon feature-icon-warning"><i class="bi bi-file-earmark-spreadsheet"></i></div>
+                        <h3 class="h5 fw-semibold">CSV / TSV export</h3>
+                        <p class="text-body-secondary mb-0">Paste straight into spreadsheets and into time-tracking systems that lack an API. Zero friction at month end.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100">
+                        <div class="feature-icon feature-icon-danger"><i class="bi bi-lock"></i></div>
+                        <h3 class="h5 fw-semibold">100% private</h3>
+                        <p class="text-body-secondary mb-0">Everything stays on your machine, in JSON files you can open in a text editor. Not a byte leaves the box.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="screenshots" class="py-5 bg-body-tertiary">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">A UI that doesn't wear you out.</h2>
+                <p class="lead text-body-secondary">Bootstrap 5, light and dark themes, keyboard shortcuts.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <figure class="screenshot-card">
+                        <img src="../docs/en/assets/screenshots/dashboard.png" alt="Daily dashboard with timeline" loading="lazy" onerror="this.classList.add('placeholder')">
+                        <figcaption>Daily dashboard with timeline</figcaption>
+                    </figure>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <figure class="screenshot-card">
+                        <img src="../docs/en/assets/screenshots/settings.png" alt="Shift configuration per weekday" loading="lazy" onerror="this.classList.add('placeholder')">
+                        <figcaption>Shifts per weekday</figcaption>
+                    </figure>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <figure class="screenshot-card">
+                        <img src="../docs/en/assets/screenshots/focus.png" alt="CSV/TSV export screen" loading="lazy" onerror="this.classList.add('placeholder')">
+                        <figcaption>CSV / TSV export</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="install" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Quick install</h2>
+                <p class="lead text-body-secondary">Two clicks on Windows, one line on Linux / macOS.</p>
+            </div>
+            <ul class="nav nav-pills justify-content-center mb-4 gap-2" role="tablist">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-win" type="button"><i class="bi bi-windows me-1"></i> Windows</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-nix" type="button"><i class="bi bi-terminal me-1"></i> Linux / macOS</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-src" type="button"><i class="bi bi-code-slash me-1"></i> Source</button></li>
+            </ul>
+            <div class="tab-content install-tabs">
+                <div class="tab-pane fade show active" id="tab-win" role="tabpanel">
+                    <div class="install-card">
+                        <ol class="install-steps">
+                            <li>
+                                <strong>Download the installer</strong> — <code>JobTracker-Setup.exe</code>
+                                <a class="btn btn-primary btn-sm ms-2" href="https://github.com/rafaelkrause/job_tracker/releases/latest" target="_blank" rel="noopener">
+                                    <i class="bi bi-download me-1"></i>Releases
+                                </a>
+                            </li>
+                            <li><strong>Run it.</strong> If SmartScreen blocks it, click <em>More info → Run anyway</em> (installer is not yet code-signed).</li>
+                            <li><strong>Done.</strong> The UI opens at <code>http://localhost:5000</code>.</li>
+                        </ol>
+                        <p class="small text-body-secondary mt-3 mb-0">
+                            Per-user install (no UAC). Embedded Python. Data at <code>%APPDATA%\JobTracker</code>, preserved across updates.
+                        </p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab-nix" role="tabpanel">
+                    <div class="install-card">
+                        <p class="mb-3">One command does it all: downloads the wheel, creates an isolated virtualenv and drops the launcher on your <code>PATH</code>.</p>
+                        <div class="code-block">
+                            <button class="btn-copy" data-copy="curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash" aria-label="Copy command">
+                                <i class="bi bi-clipboard"></i>
+                            </button>
+                            <pre><code>curl -fsSL https://raw.githubusercontent.com/rafaelkrause/job_tracker/main/install-remote.sh | bash</code></pre>
+                        </div>
+                        <p class="small text-body-secondary mt-3 mb-0">
+                            Needs Python 3.10+, <code>curl</code> and <code>bash</code>. Append <code>-s -- --service</code> for autostart (systemd on Linux, LaunchAgent on macOS).
+                        </p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab-src" role="tabpanel">
+                    <div class="install-card">
+                        <p class="mb-3">For development or running before a release has been published:</p>
+                        <div class="code-block">
+                            <button class="btn-copy" data-copy="git clone https://github.com/rafaelkrause/job_tracker.git
+cd job_tracker
+./install.sh
+./job-tracker.sh" aria-label="Copy commands">
+                                <i class="bi bi-clipboard"></i>
+                            </button>
+<pre><code>git clone https://github.com/rafaelkrause/job_tracker.git
+cd job_tracker
+./install.sh
+./job-tracker.sh</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center mt-4 mb-0">
+                <a href="../docs/en/installation/" class="link-body-emphasis text-decoration-none">
+                    Full installation guide <i class="bi bi-arrow-right"></i>
+                </a>
+            </p>
+        </div>
+    </section>
+
+    <footer class="py-5 border-top">
+        <div class="container">
+            <div class="row align-items-center gy-3">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center gap-2 fw-semibold mb-2">
+                        <i class="bi bi-clock-history text-primary"></i>
+                        Job Tracker
+                    </div>
+                    <p class="small text-body-secondary mb-0">
+                        © <span id="year"></span> Rafael Krause · MIT License · Built with <span aria-hidden="true">♥</span><span class="visually-hidden">love</span>.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a class="link-body-emphasis text-decoration-none me-3" href="../docs/en/">Docs</a>
+                    <a class="link-body-emphasis text-decoration-none me-3" href="https://github.com/rafaelkrause/job_tracker" target="_blank" rel="noopener">GitHub</a>
+                    <a class="link-body-emphasis text-decoration-none me-3" href="../docs/en/credits/">Credits</a>
+                    <a class="link-body-emphasis text-decoration-none" href="https://github.com/rafaelkrause/job_tracker/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

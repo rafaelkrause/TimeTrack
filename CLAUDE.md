@@ -61,12 +61,13 @@ Resolves to `config.json` + `data/` under that directory.
 - `installer/installer.nsi` — NSIS script. `installer/build_installer.sh` builds from a Linux host.
 - Windows shortcuts target the bundled `python\pythonw.exe` directly (no launcher script) — `pythonw.exe` runs windowless and is signed by Python Software Foundation.
 - `.github/workflows/build-installer.yml` — CI build of the Windows installer.
-- `.github/workflows/docs.yml` — builds and deploys the MkDocs site to GitHub Pages.
+- `.github/workflows/docs.yml` — builds MkDocs into `site/docs/`, overlays `landing/*` into `site/`, and deploys the composed site to GitHub Pages.
 
-**Docs:**
-- `docs-src/` — MkDocs Material source (bilingual via mkdocs-static-i18n, default pt-BR).
-- Published at https://rafaelkrause.github.io/job_tracker/ by `.github/workflows/docs.yml`.
-- Local preview: `mkdocs serve`.
+**Docs & website:**
+- `landing/` — static HTML landing page (bilingual: `index.html` pt-BR + `en/index.html`). Bootstrap 5.3 via CDN, no build step. Published at the root `https://rafaelkrause.github.io/job_tracker/`.
+- `docs-src/` — MkDocs Material source (bilingual via mkdocs-static-i18n, default pt-BR). MkDocs `site_dir` is `site/docs`; published at `https://rafaelkrause.github.io/job_tracker/docs/`.
+- Local preview of docs only: `mkdocs serve`.
+- Local preview of full site: `mkdocs build && cp -r landing/. site/ && python -m http.server --directory site 8000`.
 - `README.md` — project overview.
 
 ## Key API endpoints
