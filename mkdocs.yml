@@ -62,6 +62,7 @@ plugins:
             Solução de problemas: Troubleshooting
             Contribuindo: Contributing
             Idioma: Language
+            Créditos: Credits
 
 markdown_extensions:
   - admonition
@@ -90,6 +91,7 @@ nav:
   - Solução de problemas: troubleshooting.md
   - Contribuindo: contributing.md
   - Idioma: language.md
+  - Créditos: credits.md
 
 extra:
   social:
