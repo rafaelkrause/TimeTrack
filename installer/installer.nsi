@@ -61,8 +61,12 @@ VIAddVersionKey "LegalCopyright"  "© ${APP_PUBLISHER}"
 !define MUI_ICON   "${BUILD_DIR}\resources\timetrack.ico"
 !define MUI_UNICON "${BUILD_DIR}\resources\timetrack.ico"
 !define MUI_ABORTWARNING
-!define MUI_FINISHPAGE_RUN           "$INSTDIR\${APP_LAUNCH_EXE}"
-!define MUI_FINISHPAGE_RUN_PARAMETERS '${APP_LAUNCH_ARGS}'
+; MUI2's built-in Exec concatenation breaks when _PARAMETERS contains embedded
+; quotes (it emits `Exec "$\"exe$\" params"` — our quoted script path closes
+; the outer string and Exec sees two tokens). Use a custom function so we own
+; the quoting explicitly with single-quoted Exec.
+!define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_FUNCTION  "LaunchTimeTrack"
 !define MUI_FINISHPAGE_RUN_TEXT      "Iniciar o TimeTrack"
 !define MUI_FINISHPAGE_LINK          "Abrir no navegador"
 !define MUI_FINISHPAGE_LINK_LOCATION "http://127.0.0.1:5000"
@@ -261,6 +265,13 @@ Function .onInit
     MessageBox MB_YESNO|MB_ICONQUESTION "Uma versão do TimeTrack já está instalada.$\n$\nDeseja desinstalar antes de continuar?" IDNO +2
       ExecWait '$0 /S _?=$INSTDIR'
   ${EndIf}
+FunctionEnd
+
+; Finish-page "Run" launcher. Single-quoted Exec keeps the embedded
+; double-quotes around each path intact, so spaces in $INSTDIR don't
+; confuse CreateProcess.
+Function LaunchTimeTrack
+  Exec '"$INSTDIR\${APP_LAUNCH_EXE}" ${APP_LAUNCH_ARGS}'
 FunctionEnd
 
 ; =============================================================================
